@@ -45,6 +45,7 @@ public:
 	*/
 	Simulator_Sensor_Camera_Params() 
 	{
+        cameracalibfile="#(CamCalibFile)";
         cameraid=0;
         calibmat=cv::Mat(3,3,CV_32F);
         distcoef=cv::Mat(1,5,CV_32F);
@@ -65,6 +66,7 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
+    QString cameracalibfile;
     unsigned int cameraid;
     cv::Size size;
     cv::Mat calibmat;

@@ -1,6 +1,6 @@
 //You need to program this file.
 
-#include "../NoEdit/Simulator_Sensor_Camera_PrivFunc.h"
+#include "../NoEdit/SensorInternalEvent_ROS_Sensor_Camera_PrivFunc.h"
 
 //*******************Please add static libraries in .pro file*******************
 //e.g. unix:LIBS += ... or win32:LIBS += ...
@@ -21,7 +21,7 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 {
 	XMLDomInterface xmlloader(qstrConfigName,qstrNodeType,qstrNodeClass,qstrNodeName);
 	Simulator_Sensor_Camera_Params * params=(Simulator_Sensor_Camera_Params *)paramsPtr;
-	Simulator_Sensor_Camera_Vars * vars=(Simulator_Sensor_Camera_Vars *)varsPtr;
+	SensorInternalEvent_ROS_Sensor_Camera_Vars * vars=(SensorInternalEvent_ROS_Sensor_Camera_Vars *)varsPtr;
 	/*======Please Program below======*/
 	/*
 	Function: open node.
@@ -31,11 +31,8 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 	3: If everything is OK, return 1 for successful opening and vice versa.
 	*/
     GetParamValue(xmlloader,params,cameracalibfile);
-    GetParamValue(xmlloader,vars,datadir);
-    GetParamValue(xmlloader,params,cameraid);
 
     QFile file;
-    QDir dir;
 
     file.setFileName(params->cameracalibfile);
     if(!file.exists()||!file.open(QIODevice::ReadOnly|QIODevice::Text))
@@ -102,56 +99,15 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
     }
     file.close();
 
-    dir.setPath(vars->datadir);
-    if(!dir.exists())
-    {
-        return 0;
-    }
+    vars->camerasub->startReceiveSlot();
 
-    file.setFileName(QString("%1/image_%2/timestamps.txt").arg(vars->datadir).arg(params->cameraid,2,10,QChar('0')));
-    if(!file.exists()||!file.open(QIODevice::ReadOnly|QIODevice::Text))
-    {
-        return 0;
-    }
-    vars->timestamps.clear();
-    while(!file.atEnd())
-    {
-        QString tmpstr=file.readLine();
-        int tmpindex=tmpstr.indexOf(" ");
-        QStringList tmpqls=tmpstr.mid(tmpindex+1).split(":");
-        if(tmpqls.size()<3)
-        {
-            continue;
-        }
-        int h=tmpqls.at(0).toInt();
-        int m=tmpqls.at(1).toInt();
-        int tmpi=int(tmpqls.at(2).toDouble()*1000+0.5);
-        int s=tmpi/1000;
-        int ms=tmpi%1000;
-        vars->timestamps.push_back(QTime(h,m,s,ms));
-    }
-    file.close();
-    if(vars->timestamps.size()==0)
-    {
-        return 0;
-    }
-
-    dir.setPath(QString("%1/image_%2/data").arg(vars->datadir).arg(params->cameraid,2,10,QChar('0')));
-    vars->imagefilelist=dir.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
-
-    if(vars->timestamps.size()!=vars->imagefilelist.size())
-    {
-        return 0;
-    }
-
-    vars->fileindex=0;
 	return 1;
 }
 
 bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 {
 	Simulator_Sensor_Camera_Params * params=(Simulator_Sensor_Camera_Params *)paramsPtr;
-	Simulator_Sensor_Camera_Vars * vars=(Simulator_Sensor_Camera_Vars *)varsPtr;
+	SensorInternalEvent_ROS_Sensor_Camera_Vars * vars=(SensorInternalEvent_ROS_Sensor_Camera_Vars *)varsPtr;
 	/*======Please Program below======*/
 	/*
 	Function: close node.
@@ -159,18 +115,16 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	1: handle/close variables (vars).
 	2: If everything is OK, return 1 for successful closing and vice versa.
 	*/
-    vars->timestamps.clear();
-    vars->imagefilelist.clear();
-    vars->fileindex=-1;
+    vars->camerasub->stopReceiveSlot();
 	return 1;
 }
 
 void DECOFUNC(getInternalTrigger)(void * paramsPtr, void * varsPtr, QObject * & internalTrigger, QString & internalTriggerSignal)
 {
 	Simulator_Sensor_Camera_Params * params=(Simulator_Sensor_Camera_Params *)paramsPtr;
-	Simulator_Sensor_Camera_Vars * vars=(Simulator_Sensor_Camera_Vars *)varsPtr;
-	internalTrigger=NULL;
-	internalTriggerSignal=QString();
+	SensorInternalEvent_ROS_Sensor_Camera_Vars * vars=(SensorInternalEvent_ROS_Sensor_Camera_Vars *)varsPtr;
+    internalTrigger=vars->camerasub;
+    internalTriggerSignal=QString(SIGNAL(receiveMessageSignal()));
 	/*======Occasionally Program above======*/
 	/*
 	Function: get internal trigger [defined in vars] for node.
@@ -184,7 +138,7 @@ void DECOFUNC(getInternalTrigger)(void * paramsPtr, void * varsPtr, QObject * & 
 void DECOFUNC(initializeOutputData)(void * paramsPtr, void * varsPtr, boost::shared_ptr<void> & outputDataPtr)
 {
 	Simulator_Sensor_Camera_Params * params=(Simulator_Sensor_Camera_Params *)paramsPtr;
-	Simulator_Sensor_Camera_Vars * vars=(Simulator_Sensor_Camera_Vars *)varsPtr;
+	SensorInternalEvent_ROS_Sensor_Camera_Vars * vars=(SensorInternalEvent_ROS_Sensor_Camera_Vars *)varsPtr;
 	outputDataPtr=boost::shared_ptr<void>(new Simulator_Sensor_Camera_Data());
 	/*======Occasionally Program below/above======*/
 	/*
@@ -197,7 +151,7 @@ void DECOFUNC(initializeOutputData)(void * paramsPtr, void * varsPtr, boost::sha
 bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outputData, QList<int> & outputPortIndex, QTime & timeStamp)
 {
 	Simulator_Sensor_Camera_Params * params=(Simulator_Sensor_Camera_Params *)paramsPtr;
-	Simulator_Sensor_Camera_Vars * vars=(Simulator_Sensor_Camera_Vars *)varsPtr;
+	SensorInternalEvent_ROS_Sensor_Camera_Vars * vars=(SensorInternalEvent_ROS_Sensor_Camera_Vars *)varsPtr;
 	Simulator_Sensor_Camera_Data * outputdata=(Simulator_Sensor_Camera_Data *)outputData;
 	outputPortIndex=QList<int>();
 	timeStamp=QTime();
@@ -208,14 +162,28 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
 	E.g. outputPortIndex=QList<int>()<<(outportindex1)<<(outportindex2)...
 	Step 3: set the timeStamp for Simulator.
 	*/
-    if(vars->fileindex>=vars->timestamps.size())
+    if(vars->camerasub==NULL)
     {
         return 0;
     }
-    outputdata->timestamp=vars->timestamps.at(vars->fileindex);
-    outputdata->image=cv::imread(vars->imagefilelist.at(vars->fileindex).absoluteFilePath().toStdString());
-    timeStamp=outputdata->timestamp;
-    vars->fileindex++;
+
+    sensor_msgs::ImageConstPtr msg=vars->camerasub->getMessage();
+    if(msg==NULL)
+    {
+        return 0;
+    }
+
+    outputdata->timestamp=QTime::fromMSecsSinceStartOfDay(msg->header.stamp.sec*1000+msg->header.stamp.nsec/1000);
+    void * data=(void *)(msg->data.data());
+    if(QString::fromStdString(msg->encoding)=="rgb8")
+    {
+        outputdata->image=cv::Mat(msg->height,msg->width,CV_8UC3,data);
+        cv::cvtColor(outputdata->image,outputdata->image,CV_BGR2RGB);
+    }
+    else if(QString::fromStdString(msg->encoding)=="mono8")
+    {
+        outputdata->image=cv::Mat(msg->height,msg->width,CV_8UC1,data);
+    }
 	return 1;
 }
 

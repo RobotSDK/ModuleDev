@@ -37,7 +37,6 @@ public:
 	*/
 	Simulator_Sensor_Camera_Vars() 
 	{
-        cameracalibfile="#(CamCalibFile)";
         datadir="#(DataDir)";
 	}
 	/*! \fn ~Simulator_Sensor_Camera_Vars()
@@ -51,9 +50,7 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-    QString cameracalibfile;
     QString datadir;
-
     QList<QTime> timestamps;
     QFileInfoList imagefilelist;
     int fileindex;
