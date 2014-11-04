@@ -15,11 +15,15 @@ equals(INSTTYPE, "MOD") {
     QT += core opengl xml widgets gui
     TEMPLATE = lib
     CONFIG += qt
-    DEFINES *= RobotSDK_ModuleDev
+    DEFINES += RobotSDK_ModuleDev
+    include($${PROJNAME}.pri)
 }
 
 unix{
     DESTDIR = $$(HOME)/Build/$$INSTTYPE/$$PROJNAME
+    MOC_DIR = $$(HOME)/Build/$$INSTTYPE/$$PROJNAME/MOC
+    OBJECTS_DIR = $$(HOME)/Build/$$INSTTYPE/$$PROJNAME/OBJ
+    UI_DIR = $$(HOME)/Build/$$INSTTYPE/$$PROJNAME/UI    
 
     equals(INSTTYPE, "SDK") {
         target.path = $$(HOME)/$$INSTTYPE/$$PROJNAME/lib
@@ -50,8 +54,7 @@ unix{
     equals(INSTTYPE, "MOD") {
         INCLUDEPATH += $$(HOME)/SDK/RobotSDK/Kernel/include
         INCLUDEPATH += $$(HOME)/SDK/RobotSDK/ModuleDev
-        INCLUDEPATH += $$(HOME)/SDK/RobotSDK/Module/include
-	include($${PROJNAME}.pri)
+        INCLUDEPATH += $$(HOME)/SDK/RobotSDK/Module/include	
         
         target.path = $$(HOME)/SDK/RobotSDK/Module/SharedLibrary
         CONFIG(debug, debug|release){
@@ -76,9 +79,19 @@ win32{
         error($$TMPPATH is not Specified.)
     }
     DESTDIR = $$(RobotSDK_Kernel)/../../../Build/$$INSTTYPE/$$PROJNAME
+    MOC_DIR = $$(RobotSDK_Kernel)/../../../Build/$$INSTTYPE/$$PROJNAME/MOC
+    OBJECTS_DIR = $$(RobotSDK_Kernel)/../../../Build/$$INSTTYPE/$$PROJNAME/OBJ
+    UI_DIR = $$(RobotSDK_Kernel)/../../../Build/$$INSTTYPE/$$PROJNAME/UI  
 
     equals(INSTTYPE, "SDK") {
-        target.path = $$(RobotSDK_Kernel)/../../../$$INSTTYPE/$$PROJNAME/lib
+        TMPPATH=$$(RobotDep_Include)
+        isEmpty(TMPPATH) {
+            error($$TMPPATH is not Specified.)
+        }
+        else{
+            INCLUDEPATH += $$split(TMPPATH,;)
+        }
+		target.path = $$(RobotSDK_Kernel)/../../../$$INSTTYPE/$$PROJNAME/lib
         CONFIG(debug, debug|release){
             TARGET = $${PROJNAME}_Debug
         }
