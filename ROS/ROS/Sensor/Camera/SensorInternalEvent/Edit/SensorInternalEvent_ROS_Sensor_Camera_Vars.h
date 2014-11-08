@@ -39,7 +39,7 @@ public:
 	SensorInternalEvent_ROS_Sensor_Camera_Vars() 
 	{
         topic="Camera";
-        camerasub=NULL;
+        camerasub=new ROSSub<sensor_msgs::ImageConstPtr>(topic,1000,10);
 	}
 	/*! \fn ~SensorInternalEvent_ROS_Sensor_Camera_Vars()
 		\brief The destructor of SensorInternalEvent_ROS_Sensor_Camera_Vars. [required]

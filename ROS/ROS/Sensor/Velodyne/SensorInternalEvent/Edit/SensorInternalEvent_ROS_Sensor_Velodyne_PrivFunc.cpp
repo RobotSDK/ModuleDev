@@ -27,10 +27,13 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 
     GetParamValue(xmlloader,vars,topic);
 
-    vars->velodynesub=new ROSSub<sensor_msgs::PointCloud2ConstPtr>(vars->topic,1000,10);
     if(vars->velodynesub==NULL)
     {
         return 0;
+    }
+    if(vars->topic!=vars->velodynesub->getTopic())
+    {
+        vars->velodynesub->resetTopic(vars->topic,1000);
     }
     vars->velodynesub->startReceiveSlot();
 
@@ -48,11 +51,9 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	1: handle/close variables (vars).
 	2: If everything is OK, return 1 for successful closing and vice versa.
 	*/
-    if(vars!=NULL)
+    if(vars->velodynesub!=NULL)
     {
         vars->velodynesub->stopReceiveSlot();
-        delete vars->velodynesub;
-        vars->velodynesub=NULL;
     }
 	return 1;
 }

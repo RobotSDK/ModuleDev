@@ -39,7 +39,7 @@ public:
 	SensorInternalEvent_ROS_Sensor_Velodyne_Vars() 
 	{
         topic="Velodyne";
-        velodynesub=NULL;
+        velodynesub=new ROSSub<sensor_msgs::PointCloud2ConstPtr>(topic,1000,10);
 	}
 	/*! \fn ~SensorInternalEvent_ROS_Sensor_Velodyne_Vars()
 		\brief The destructor of SensorInternalEvent_ROS_Sensor_Velodyne_Vars. [required]

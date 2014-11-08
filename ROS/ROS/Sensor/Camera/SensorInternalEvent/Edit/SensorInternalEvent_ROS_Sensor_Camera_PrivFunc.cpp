@@ -32,13 +32,16 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 
     GetParamValue(xmlloader,vars,topic);
 
-    vars->camerasub=new ROSSub<sensor_msgs::ImageConstPtr>(QString("%1_%2").arg(vars->topic).arg(params->cameraid),1000,10);
     if(vars->camerasub==NULL)
     {
         return 0;
     }
+    QString topic=QString("%1_%2").arg(vars->topic).arg(params->cameraid);
+    if(topic!=vars->camerasub->getTopic())
+    {
+        vars->camerasub->resetTopic(topic,1000);
+    }
     vars->camerasub->startReceiveSlot();
-
 	return 1;
 }
 
@@ -53,11 +56,9 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	1: handle/close variables (vars).
 	2: If everything is OK, return 1 for successful closing and vice versa.
 	*/
-    if(vars!=NULL)
+    if(vars->camerasub!=NULL)
     {
         vars->camerasub->stopReceiveSlot();
-        delete vars->camerasub;
-        vars->camerasub=NULL;
     }
 	return 1;
 }
