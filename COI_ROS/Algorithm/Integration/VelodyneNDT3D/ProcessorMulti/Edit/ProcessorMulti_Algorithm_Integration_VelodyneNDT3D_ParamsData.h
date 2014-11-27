@@ -86,7 +86,7 @@ public:
 	*/
 	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Data() 
 	{
-		
+        pclpoints=pcl::PointCloud<pcl::PointXYZI>::Ptr(new pcl::PointCloud<pcl::PointXYZI>);
 	}
 	/*! \fn ~ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Data()
 		\brief The destructor of ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Data. [required]
@@ -99,7 +99,8 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-    pcl::PointCloud<pcl::PointXYZI>::Ptr points;
+    pcl::PointCloud<pcl::PointXYZI>::Ptr pclpoints;
+    cv::Mat cvtransform;
 };
 
 /*! \def ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_OUTPUTPORTSNUMBER

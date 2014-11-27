@@ -115,7 +115,15 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
     }
     int msec=(outputdata->velodynepoints->header.stamp.sec)%(24*60*60)*1000+(outputdata->velodynepoints->header.stamp.nsec)/1000000;
     outputdata->timestamp=QTime::fromMSecsSinceStartOfDay(msec);
-    int pointnum=outputdata->velodynepoints->height*outputdata->velodynepoints->width;
+
+    outputdata->pclpoints->header.frame_id=outputdata->velodynepoints->header.frame_id;
+    outputdata->pclpoints->header.seq=outputdata->velodynepoints->header.seq;
+    outputdata->pclpoints->header.stamp=msec;
+
+    outputdata->pclpoints->height=outputdata->velodynepoints->height;
+    outputdata->pclpoints->width=outputdata->velodynepoints->width;
+
+    int pointnum=outputdata->pclpoints->height*outputdata->pclpoints->width;
     outputdata->pclpoints->resize(pointnum);
     char * data=(char *)(outputdata->velodynepoints->data.data());
     int i,j;

@@ -70,7 +70,7 @@ void DECOFUNC(getMultiInputDataSize)(void * paramsPtr, void * varsPtr, QList<int
 {
 	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
 	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
-	inputDataSize=QList<int>();
+    inputDataSize=QList<int>()<<-1<<-1;
 	/*======Please Program above======*/
 	/*
 	Function: get input data size to be grabbed from buffer.
@@ -103,7 +103,10 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
 	Step 2 [optional]: determine the outputPortIndex. (if not, outputdata will be sent by all ports)
 	E.g. outputPortIndex=QList<int>()<<(outportindex1)<<(outportindex2)...
 	*/
-	
+
+    outputdata->pclpoints->header=inputdata_0[0]->pclpoints->header;
+    outputdata->pclpoints->height=inputdata_0[0]->pclpoints->height;
+    outputdata->pclpoints->width=inputdata_0[0]->pclpoints->width;
 	return 1;
 }
 
