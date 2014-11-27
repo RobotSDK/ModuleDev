@@ -10,7 +10,9 @@ SOURCES += \
 	./Algorithm/Localization/NDT3D/SensorInternalEvent/Edit/SensorInternalEvent_Algorithm_Localization_NDT3D_PrivFunc.cpp	\
 	./Algorithm/Localization/NDT3D/SensorInternalEvent/NoEdit/SensorInternalEvent_Algorithm_Localization_NDT3D_PrivCoreFunc.cpp	\
 	./Algorithm/Localization/NDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Localization_NDT3D_PrivFunc.cpp	\
-	./Algorithm/Localization/NDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Localization_NDT3D_PrivCoreFunc.cpp	
+	./Algorithm/Localization/NDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Localization_NDT3D_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivFunc.cpp	\
+	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivCoreFunc.cpp	
 
 HEADERS += \
 	./Sensor/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_Velodyne_ParamsData.h	\
@@ -36,5 +38,9 @@ HEADERS += \
 	./Algorithm/Localization/NDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Localization_NDT3D_ParamsData.h	\
 	./Algorithm/Localization/NDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Localization_NDT3D_Vars.h	\
 	./Algorithm/Localization/NDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Localization_NDT3D_PrivFunc.h	\
-	./Algorithm/Localization/NDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Localization_NDT3D_PrivCoreFunc.h	
+	./Algorithm/Localization/NDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Localization_NDT3D_PrivCoreFunc.h	\
+	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_ParamsData.h	\
+	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars.h	\
+	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivFunc.h	\
+	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivCoreFunc.h	
 

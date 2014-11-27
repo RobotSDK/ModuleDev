@@ -51,7 +51,7 @@ public:
 	*/
 	VisualizationMono_Sensor_Camera_Params() 
 	{
-		
+
 	}
 	/*! \fn ~VisualizationMono_Sensor_Camera_Params()
 		\brief The destructor of VisualizationMono_Sensor_Camera_Params. [required]
@@ -64,7 +64,7 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-
+    double compressrate;
 };
 
 //There is no Output Data.

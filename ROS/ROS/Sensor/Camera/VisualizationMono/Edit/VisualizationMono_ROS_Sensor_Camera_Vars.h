@@ -37,7 +37,13 @@ public:
 	*/
 	VisualizationMono_ROS_Sensor_Camera_Vars() 
 	{
-		
+        image=new QLabel;
+        image->setAlignment(Qt::AlignCenter);
+        int i;
+        for(i=0;i<256;i++)
+        {
+            colorTable.push_back(qRgb(i,i,i));
+        }
 	}
 	/*! \fn ~VisualizationMono_ROS_Sensor_Camera_Vars()
 		\brief The destructor of VisualizationMono_ROS_Sensor_Camera_Vars. [required]
@@ -46,11 +52,16 @@ public:
 	*/
 	~VisualizationMono_ROS_Sensor_Camera_Vars() 
 	{
-		
+        if(image->parent()==NULL)
+        {
+            delete image;
+            image=NULL;
+        }
 	}
 public:
 	//*******************Please add variables below*******************
-
+    QLabel * image;
+    QVector<QRgb> colorTable;
 };
 
 /*! @}*/ 

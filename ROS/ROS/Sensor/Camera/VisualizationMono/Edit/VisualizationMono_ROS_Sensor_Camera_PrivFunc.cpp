@@ -18,7 +18,9 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 	2: initialize variables (vars).
 	3: If everything is OK, return 1 for successful opening and vice versa.
 	*/
-	
+    GetParamValue(xmlloader,params,compressrate);
+
+    vars->image->setText("Open");
 	return 1;
 }
 
@@ -33,7 +35,7 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	1: handle/close variables (vars).
 	2: If everything is OK, return 1 for successful closing and vice versa.
 	*/
-	
+    vars->image->setText("Closed");
 	return 1;
 }
 
@@ -80,7 +82,44 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
 	/*
 	Function: process draindata.
 	*/
-	
+    cv::Mat image;
+    cv::Size size=draindata.front()->image.size();
+    size.width*=params->compressrate;
+    size.height*=params->compressrate;
+    cv::resize(draindata.front()->image,image,size);
+    QFont font("times",24);
+    QFontMetrics fm(font);
+    int height=fm.height();
+    QPainter painter;
+    QPen pen(QColor(0,0,0,128));
+    if(image.type()==CV_8UC1)
+    {
+        QImage img(image.data, image.cols, image.rows, image.step, QImage::Format_Indexed8);
+        img.setColorTable(vars->colorTable);
+        painter.begin(&img);
+        painter.setPen(pen);
+        painter.drawText(0,1*height,QString("Camera %1").arg(drainparams.front()->cameraid));
+        painter.drawText(0,2*height,draindata.front()->timestamp.toString("HH:mm:ss:zzz"));
+        painter.end();
+        vars->image->setPixmap(QPixmap::fromImage(img));
+        return 1;
+    }
+    else if(image.type()==CV_8UC3)
+    {
+        QImage img(image.data, image.cols, image.rows, image.step, QImage::Format_RGB888);
+        img=img.rgbSwapped();
+        painter.begin(&img);
+        painter.setPen(pen);
+        painter.drawText(0,height,draindata.front()->timestamp.toString("HH:mm:ss:zzz"));
+        painter.end();
+        vars->image->setPixmap(QPixmap::fromImage(img));
+        return 1;
+    }
+    else
+    {
+        vars->image->setText("Not Supported");
+        return 0;
+    }
 	return 1;
 }
 
@@ -88,7 +127,7 @@ void DECOFUNC(visualizationWidgets)(void * paramsPtr, void * varsPtr, QList<QWid
 {
 	VisualizationMono_ROS_Sensor_Camera_Params * params=(VisualizationMono_ROS_Sensor_Camera_Params *)paramsPtr;
 	VisualizationMono_ROS_Sensor_Camera_Vars * vars=(VisualizationMono_ROS_Sensor_Camera_Vars *)varsPtr;
-	widgets=QList<QWidget *>();
+    widgets=QList<QWidget *>()<<vars->image;
 	/*======Please Program above======*/
 	/*
 	Function: get visualization widgets [defined in vars].

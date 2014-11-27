@@ -49,4 +49,5 @@ unix {
 
 PROJNAME = COI_ROS
 INSTTYPE = MOD
+
 include(RobotSDK_Main.pri)
