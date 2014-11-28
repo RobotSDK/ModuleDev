@@ -12,7 +12,13 @@ SOURCES += \
 	./Algorithm/Localization/NDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Localization_NDT3D_PrivFunc.cpp	\
 	./Algorithm/Localization/NDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Localization_NDT3D_PrivCoreFunc.cpp	\
 	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivFunc.cpp	\
-	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivCoreFunc.cpp	
+	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VelodyneNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneNDT3D_PrivFunc.cpp	\
+	./Algorithm/Integration/VelodyneNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneNDT3D_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VelodyneCamera/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneCamera_PrivFunc.cpp	\
+	./Algorithm/Integration/VelodyneCamera/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneCamera_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VelodyneCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneCamera_PrivFunc.cpp	\
+	./Algorithm/Integration/VelodyneCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCamera_PrivCoreFunc.cpp	
 
 HEADERS += \
 	./Sensor/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_Velodyne_ParamsData.h	\
@@ -42,5 +48,17 @@ HEADERS += \
 	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_ParamsData.h	\
 	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars.h	\
 	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivFunc.h	\
-	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivCoreFunc.h	
+	./Algorithm/Integration/VelodyneNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivCoreFunc.h	\
+	./Algorithm/Integration/VelodyneNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneNDT3D_ParamsData.h	\
+	./Algorithm/Integration/VelodyneNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars.h	\
+	./Algorithm/Integration/VelodyneNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneNDT3D_PrivFunc.h	\
+	./Algorithm/Integration/VelodyneNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneNDT3D_PrivCoreFunc.h	\
+	./Algorithm/Integration/VelodyneCamera/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneCamera_ParamsData.h	\
+	./Algorithm/Integration/VelodyneCamera/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars.h	\
+	./Algorithm/Integration/VelodyneCamera/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneCamera_PrivFunc.h	\
+	./Algorithm/Integration/VelodyneCamera/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneCamera_PrivCoreFunc.h	\
+	./Algorithm/Integration/VelodyneCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneCamera_ParamsData.h	\
+	./Algorithm/Integration/VelodyneCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneCamera_Vars.h	\
+	./Algorithm/Integration/VelodyneCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCamera_PrivFunc.h	\
+	./Algorithm/Integration/VelodyneCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCamera_PrivCoreFunc.h	
 

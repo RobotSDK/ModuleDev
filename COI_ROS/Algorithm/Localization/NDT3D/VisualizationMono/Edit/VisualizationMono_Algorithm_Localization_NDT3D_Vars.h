@@ -40,6 +40,7 @@ public:
         viewer=new GLViewer;
         tabwidget=new QTabWidget;
         tabwidget->addTab(viewer,"TimeStamp");
+        localflag=0;
 	}
 	/*! \fn ~VisualizationMono_Algorithm_Localization_NDT3D_Vars()
 		\brief The destructor of VisualizationMono_Algorithm_Localization_NDT3D_Vars. [required]
@@ -48,7 +49,11 @@ public:
 	*/
 	~VisualizationMono_Algorithm_Localization_NDT3D_Vars() 
 	{
-		
+        if(tabwidget->parent()==NULL)
+        {
+            delete tabwidget;
+            tabwidget=NULL;
+        }
 	}
 public:
 	//*******************Please add variables below*******************
@@ -56,6 +61,7 @@ public:
     GLViewer * viewer;
     GLuint ndt3dlist;
     QVector<double> positions;
+    bool localflag;
 };
 
 /*! @}*/ 

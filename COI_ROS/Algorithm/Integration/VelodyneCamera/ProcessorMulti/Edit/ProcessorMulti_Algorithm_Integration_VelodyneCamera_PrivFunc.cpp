@@ -1,6 +1,6 @@
 //You need to program this file.
 
-#include "../NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_PrivFunc.h"
+#include "../NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneCamera_PrivFunc.h"
 
 //*******************Please add static libraries in .pro file*******************
 //e.g. unix:LIBS += ... or win32:LIBS += ...
@@ -8,8 +8,8 @@
 bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeType, QString qstrNodeClass, QString qstrNodeName, void * paramsPtr, void * varsPtr)
 {
 	XMLDomInterface xmlloader(qstrConfigName,qstrNodeType,qstrNodeClass,qstrNodeName);
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params *)paramsPtr;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars *)varsPtr;
 	/*======Please Program below======*/
 	/*
 	Function: open node.
@@ -24,8 +24,8 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 
 bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 {
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params *)paramsPtr;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars *)varsPtr;
 	/*======Please Program below======*/
 	/*
 	Function: close node.
@@ -39,8 +39,8 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 
 void DECOFUNC(getInternalTrigger)(void * paramsPtr, void * varsPtr, QObject * & internalTrigger, QString & internalTriggerSignal)
 {
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params *)paramsPtr;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars *)varsPtr;
 	internalTrigger=NULL;
 	internalTriggerSignal=QString();
 	/*======Occasionally Program above======*/
@@ -55,9 +55,9 @@ void DECOFUNC(getInternalTrigger)(void * paramsPtr, void * varsPtr, QObject * & 
 
 void DECOFUNC(initializeOutputData)(void * paramsPtr, void * varsPtr, boost::shared_ptr<void> & outputDataPtr)
 {
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
-	outputDataPtr=boost::shared_ptr<void>(new ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Data());
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params *)paramsPtr;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars *)varsPtr;
+	outputDataPtr=boost::shared_ptr<void>(new ProcessorMulti_Algorithm_Integration_VelodyneCamera_Data());
 	/*======Occasionally Program below/above======*/
 	/*
 	Function: initial output data.
@@ -68,9 +68,9 @@ void DECOFUNC(initializeOutputData)(void * paramsPtr, void * varsPtr, boost::sha
 
 void DECOFUNC(getMultiInputDataSize)(void * paramsPtr, void * varsPtr, QList<int> & inputDataSize)
 {
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
-    inputDataSize=QList<int>()<<-1<<-1;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params *)paramsPtr;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars *)varsPtr;
+	inputDataSize=QList<int>();
 	/*======Please Program above======*/
 	/*
 	Function: get input data size to be grabbed from buffer.
@@ -84,16 +84,16 @@ void DECOFUNC(getMultiInputDataSize)(void * paramsPtr, void * varsPtr, QList<int
 }
 
 //Input Port #0: Buffer_Size = 0, Params_Type = SensorInternalEvent_Sensor_Velodyne_Params, Data_Type = SensorInternalEvent_Sensor_Velodyne_Data
-//Input Port #1: Buffer_Size = 0, Params_Type = SensorInternalEvent_Algorithm_Localization_NDT3D_Params, Data_Type = SensorInternalEvent_Algorithm_Localization_NDT3D_Data
+//Input Port #1: Buffer_Size = 0, Params_Type = SensorInternalEvent_Sensor_Camera_Params, Data_Type = SensorInternalEvent_Sensor_Camera_Data
 bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<QVector<void *> > inputParams, QVector<QVector<void *> > inputData, void * outputData, QList<int> & outputPortIndex)
 {
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params *)paramsPtr;
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars *)varsPtr;
 	QVector<SensorInternalEvent_Sensor_Velodyne_Params *> inputparams_0; copyQVector(inputparams_0,inputParams[0]);
-	QVector<SensorInternalEvent_Algorithm_Localization_NDT3D_Params *> inputparams_1; copyQVector(inputparams_1,inputParams[1]);
+	QVector<SensorInternalEvent_Sensor_Camera_Params *> inputparams_1; copyQVector(inputparams_1,inputParams[1]);
 	QVector<SensorInternalEvent_Sensor_Velodyne_Data *> inputdata_0; copyQVector(inputdata_0,inputData[0]);
-	QVector<SensorInternalEvent_Algorithm_Localization_NDT3D_Data *> inputdata_1; copyQVector(inputdata_1,inputData[1]);
-	ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Data * outputdata=(ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Data *)outputData;
+	QVector<SensorInternalEvent_Sensor_Camera_Data *> inputdata_1; copyQVector(inputdata_1,inputData[1]);
+	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Data * outputdata=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Data *)outputData;
 	outputPortIndex=QList<int>();
 	if(inputdata_0.size()==0){return 0;}
 	if(inputdata_1.size()==0){return 0;}
@@ -103,23 +103,7 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
 	Step 2 [optional]: determine the outputPortIndex. (if not, outputdata will be sent by all ports)
 	E.g. outputPortIndex=QList<int>()<<(outportindex1)<<(outportindex2)...
 	*/
-    params->extrinsicmat=inputparams_0[0]->extrinsicmat;
-
-    outputdata->timestamp=inputdata_0[0]->timestamp;
-    outputdata->pclpoints->header=inputdata_0[0]->pclpoints->header;
-    outputdata->pclpoints->height=inputdata_0[0]->pclpoints->height;
-    outputdata->pclpoints->width=inputdata_0[0]->pclpoints->width;
-    outputdata->pclpoints->points=inputdata_0[0]->pclpoints->points;
-
-    outputdata->cvtransform=inputdata_1[0]->cvtransform;
-
-    int pointsnum=outputdata->pclpoints->size();
-    cv::Mat pointscolor(pointsnum,8,CV_32F,outputdata->pclpoints->points.data());
-    cv::Mat transpoints=pointscolor(cv::Rect(0,0,4,pointsnum));
-    cv::Mat points;
-    transpoints.convertTo(points,CV_64F);
-    points=points*(outputdata->cvtransform.t());
-    points.convertTo(transpoints,CV_32F);
+	
 	return 1;
 }
 

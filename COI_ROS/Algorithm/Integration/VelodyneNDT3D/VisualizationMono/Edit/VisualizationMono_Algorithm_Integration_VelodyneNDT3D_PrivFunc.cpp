@@ -1,6 +1,6 @@
 //You need to program this file.
 
-#include "../NoEdit/VisualizationMono_Algorithm_Localization_NDT3D_PrivFunc.h"
+#include "../NoEdit/VisualizationMono_Algorithm_Integration_VelodyneNDT3D_PrivFunc.h"
 
 //*******************Please add static libraries in .pro file*******************
 //e.g. unix:LIBS += ... or win32:LIBS += ...
@@ -8,8 +8,8 @@
 bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeType, QString qstrNodeClass, QString qstrNodeName, void * paramsPtr, void * varsPtr)
 {
 	XMLDomInterface xmlloader(qstrConfigName,qstrNodeType,qstrNodeClass,qstrNodeName);
-	VisualizationMono_Algorithm_Localization_NDT3D_Params * params=(VisualizationMono_Algorithm_Localization_NDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Localization_NDT3D_Vars * vars=(VisualizationMono_Algorithm_Localization_NDT3D_Vars *)varsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
 	/*======Please Program below======*/
 	/*
 	Function: open node.
@@ -18,23 +18,28 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 	2: initialize variables (vars).
 	3: If everything is OK, return 1 for successful opening and vice versa.
 	*/
-    GetParamValue(xmlloader,vars,localflag);
+    GetParamValue(xmlloader,vars,maxframes);
 
     vars->viewer->makeCurrent();
+    vars->velodynendt3dlist=glGenLists(vars->maxframes);
+    vars->viewer->addDisplayLists(vars->velodynendt3dlist,vars->maxframes);
+    vars->curid=0;
+
     vars->ndt3dlist=glGenLists(1);
     vars->viewer->addDisplayList(vars->ndt3dlist);
+    vars->positions.clear();
+
     Eigen::Matrix4d camerapose=Eigen::Matrix4d::Identity();
     camerapose(2,3)=10;
     vars->viewer->setCameraPose(camerapose);
     vars->viewer->update();
-    vars->positions.clear();
-    return 1;
+	return 1;
 }
 
 bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 {
-	VisualizationMono_Algorithm_Localization_NDT3D_Params * params=(VisualizationMono_Algorithm_Localization_NDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Localization_NDT3D_Vars * vars=(VisualizationMono_Algorithm_Localization_NDT3D_Vars *)varsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
 	/*======Please Program below======*/
 	/*
 	Function: close node.
@@ -43,20 +48,24 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	2: If everything is OK, return 1 for successful closing and vice versa.
 	*/
     vars->viewer->makeCurrent();
-    vars->viewer->deleteDisplayList(vars->ndt3dlist);
+    vars->viewer->clearDisplayList();
+    glDeleteLists(vars->velodynendt3dlist,vars->maxframes);
+    vars->curid=0;
+
     glDeleteLists(vars->ndt3dlist,1);
+    vars->positions.clear();
+
     Eigen::Matrix4d camerapose=Eigen::Matrix4d::Identity();
     camerapose(2,3)=10;
     vars->viewer->setCameraPose(camerapose);
     vars->viewer->update();
-    vars->positions.clear();
-	return 1;
+    return 1;
 }
 
 void DECOFUNC(getInternalTrigger)(void * paramsPtr, void * varsPtr, QObject * & internalTrigger, QString & internalTriggerSignal)
 {
-	VisualizationMono_Algorithm_Localization_NDT3D_Params * params=(VisualizationMono_Algorithm_Localization_NDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Localization_NDT3D_Vars * vars=(VisualizationMono_Algorithm_Localization_NDT3D_Vars *)varsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
 	internalTrigger=NULL;
 	internalTriggerSignal=QString();
 	/*======Occasionally Program above======*/
@@ -71,8 +80,8 @@ void DECOFUNC(getInternalTrigger)(void * paramsPtr, void * varsPtr, QObject * & 
 
 void DECOFUNC(getMonoDrainDataSize)(void * paramsPtr, void * varsPtr, int & drainDataSize)
 {
-	VisualizationMono_Algorithm_Localization_NDT3D_Params * params=(VisualizationMono_Algorithm_Localization_NDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Localization_NDT3D_Vars * vars=(VisualizationMono_Algorithm_Localization_NDT3D_Vars *)varsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
 	drainDataSize=0;
 	/*======Please Program above======*/
 	/*
@@ -84,13 +93,13 @@ void DECOFUNC(getMonoDrainDataSize)(void * paramsPtr, void * varsPtr, int & drai
 	*/
 }
 
-//Input Port #0: Buffer_Size = 0, Params_Type = SensorInternalEvent_Algorithm_Localization_NDT3D_Params, Data_Type = SensorInternalEvent_Algorithm_Localization_NDT3D_Data
+//Input Port #0: Buffer_Size = 0, Params_Type = ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params, Data_Type = ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Data
 bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<void *> drainParams, QVector<void *> drainData)
 {
-	VisualizationMono_Algorithm_Localization_NDT3D_Params * params=(VisualizationMono_Algorithm_Localization_NDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Localization_NDT3D_Vars * vars=(VisualizationMono_Algorithm_Localization_NDT3D_Vars *)varsPtr;
-	QVector<SensorInternalEvent_Algorithm_Localization_NDT3D_Params *> drainparams; copyQVector(drainparams,drainParams);
-	QVector<SensorInternalEvent_Algorithm_Localization_NDT3D_Data *> draindata; copyQVector(draindata,drainData);
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
+	QVector<ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params *> drainparams; copyQVector(drainparams,drainParams);
+	QVector<ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Data *> draindata; copyQVector(draindata,drainData);
 	if(draindata.size()==0){return 0;}
 	/*======Please Program below======*/
 	/*
@@ -101,6 +110,29 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
     vars->viewer->makeCurrent();
 
     glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+    void * pointsptr=(void *)(draindata[0]->pclpoints->points.data());
+    glVertexPointer(3,GL_FLOAT,sizeof(pcl::PointXYZI),pointsptr);
+
+    void * colorsptr=pointsptr+sizeof(pcl::PointXYZ);
+    glColorPointer(3,GL_FLOAT,sizeof(pcl::PointXYZI),colorsptr);
+
+    GLuint list=vars->velodynendt3dlist+vars->curid;
+    vars->curid=(vars->curid+1)%(vars->maxframes);
+    glNewList(list,GL_COMPILE);
+
+    int pointsnum=draindata[0]->pclpoints->size();
+    glDrawArrays(GL_POINTS,0,pointsnum);
+
+    glEndList();
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+
+    vars->viewer->update();
+
+    glEnableClientState(GL_VERTEX_ARRAY);
 
     vars->positions.push_back(draindata[0]->cvtransform.at<double>(0,3));
     vars->positions.push_back(draindata[0]->cvtransform.at<double>(1,3));
@@ -109,16 +141,7 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
 
     int posenum=vars->positions.size()/4;
     cv::Mat pose=cv::Mat(posenum,4,CV_64F,vars->positions.data());
-    cv::Mat invpose;
-    if(vars->localflag)
-    {
-        invpose=pose*(draindata[0]->cvtransform.inv().t());
-        glVertexPointer(3,GL_DOUBLE,4*sizeof(double),invpose.data);
-    }
-    else
-    {
-        glVertexPointer(3,GL_DOUBLE,4*sizeof(double),pose.data);
-    }
+    glVertexPointer(3,GL_DOUBLE,4*sizeof(double),pose.data);
 
     glNewList(vars->ndt3dlist,GL_COMPILE);
 
@@ -131,13 +154,14 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
     glDisableClientState(GL_VERTEX_ARRAY);
 
     vars->viewer->update();
+
 	return 1;
 }
 
 void DECOFUNC(visualizationWidgets)(void * paramsPtr, void * varsPtr, QList<QWidget *> & widgets)
 {
-	VisualizationMono_Algorithm_Localization_NDT3D_Params * params=(VisualizationMono_Algorithm_Localization_NDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Localization_NDT3D_Vars * vars=(VisualizationMono_Algorithm_Localization_NDT3D_Vars *)varsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
     widgets=QList<QWidget *>()<<(vars->tabwidget);
 	/*======Please Program above======*/
 	/*
