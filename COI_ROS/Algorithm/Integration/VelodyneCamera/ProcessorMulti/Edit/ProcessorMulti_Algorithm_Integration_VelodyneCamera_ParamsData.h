@@ -99,7 +99,10 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-
+    QTime velodynetimestamp;
+    QTime cameratimestamp;
+    cv::Size imagesize;
+    QVector<int> id;
 };
 
 /*! \def ProcessorMulti_Algorithm_Integration_VelodyneCamera_OUTPUTPORTSNUMBER

@@ -21,6 +21,7 @@
 //*******************Please add other headers below*******************
 
 
+
 //The Vars is defined as below
 /*! \class ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars 
 	\brief The Vars of ProcessorMulti_Algorithm_Integration_VelodyneCamera.
