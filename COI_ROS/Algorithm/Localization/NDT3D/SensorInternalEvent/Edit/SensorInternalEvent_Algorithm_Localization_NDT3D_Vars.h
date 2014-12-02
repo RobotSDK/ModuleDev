@@ -37,8 +37,8 @@ public:
 	*/
 	SensorInternalEvent_Algorithm_Localization_NDT3D_Vars() 
 	{
-        destinationframe="ndt_frame";
-        originalframe="world";
+        destinationframe="world";
+        originalframe="ndt_frame";
         queryinterval=10;
         ndt3dsub=new ROSTFSub(destinationframe,originalframe,queryinterval);
 	}

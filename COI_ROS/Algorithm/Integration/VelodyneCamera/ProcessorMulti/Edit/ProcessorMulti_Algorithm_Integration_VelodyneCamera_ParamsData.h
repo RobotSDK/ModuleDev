@@ -67,7 +67,10 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-
+    cv::Mat velodyneextrinsicmat;
+    cv::Mat cameraextrinsicmat;
+    cv::Mat cameramat;
+    cv::Mat distcoeff;
 };
 
 //The Output Data is defined as below
@@ -86,7 +89,7 @@ public:
 	*/
 	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Data() 
 	{
-		
+        pclpoints=pcl::PointCloud<pcl::PointXYZI>::Ptr(new pcl::PointCloud<pcl::PointXYZI>);
 	}
 	/*! \fn ~ProcessorMulti_Algorithm_Integration_VelodyneCamera_Data()
 		\brief The destructor of ProcessorMulti_Algorithm_Integration_VelodyneCamera_Data. [required]
@@ -101,8 +104,11 @@ public:
 	//*******************Please add variables below*******************
     QTime velodynetimestamp;
     QTime cameratimestamp;
-    cv::Size imagesize;
-    QVector<int> id;
+    pcl::PointCloud<pcl::PointXYZI>::Ptr pclpoints;
+    cv::Mat cvimage;
+    QVector<double> ranges;
+    float maxrange;
+    float minrange;
 };
 
 /*! \def ProcessorMulti_Algorithm_Integration_VelodyneCamera_OUTPUTPORTSNUMBER

@@ -18,7 +18,18 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 	2: initialize variables (vars).
 	3: If everything is OK, return 1 for successful opening and vice versa.
 	*/
-	
+    GetParamValue(xmlloader,vars,maxrange);
+    GetParamValue(xmlloader,vars,minrange);
+
+    vars->velodyneviewer->makeCurrent();
+    vars->velodynelist=glGenLists(1);
+    vars->velodyneviewer->addDisplayList(vars->velodynelist);
+    Eigen::Matrix4d camerapose=Eigen::Matrix4d::Identity();
+    camerapose(2,3)=10;
+    vars->velodyneviewer->setCameraPose(camerapose);
+    vars->velodyneviewer->update();
+
+    vars->cameraviewer->setText("Open");
 	return 1;
 }
 
@@ -33,7 +44,15 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	1: handle/close variables (vars).
 	2: If everything is OK, return 1 for successful closing and vice versa.
 	*/
-	
+    vars->velodyneviewer->makeCurrent();
+    vars->velodyneviewer->deleteDisplayList(vars->velodynelist);
+    glDeleteLists(vars->velodynelist,1);
+    Eigen::Matrix4d camerapose=Eigen::Matrix4d::Identity();
+    camerapose(2,3)=10;
+    vars->velodyneviewer->setCameraPose(camerapose);
+    vars->velodyneviewer->update();
+
+    vars->cameraviewer->setText("Closed");
 	return 1;
 }
 
@@ -80,7 +99,79 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
 	/*
 	Function: process draindata.
 	*/
-	
+    vars->tabwidget->setTabText(0,draindata[0]->velodynetimestamp.toString("HH:mm:ss:zzz"));
+    vars->tabwidget->setTabText(1,draindata[0]->cameratimestamp.toString("HH:mm:ss:zzz"));
+
+    vars->velodyneviewer->makeCurrent();
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+    void * pointsptr=(void *)(draindata[0]->pclpoints->points.data());
+    glVertexPointer(3,GL_FLOAT,sizeof(pcl::PointXYZI),pointsptr);
+
+    void * colorsptr=pointsptr+sizeof(pcl::PointXYZ)+sizeof(float);
+    glColorPointer(3,GL_FLOAT,sizeof(pcl::PointXYZI),colorsptr);
+
+    glNewList(vars->velodynelist,GL_COMPILE);
+
+    int pointsnum=draindata[0]->pclpoints->size();
+    glDrawArrays(GL_POINTS,0,pointsnum);
+
+    glEndList();
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+
+    vars->velodyneviewer->update();
+
+    cv::Mat image=draindata[0]->cvimage.clone();
+
+    if(image.type()==CV_8UC3)
+    {
+        int i,j;
+        for(i=0;i<image.rows;i++)
+        {
+            for(j=0;j<image.cols;j++)
+            {
+                int id=i*image.cols+j;
+                if(draindata[0]->ranges[id]>vars->minrange&&draindata[0]->ranges[id]<=vars->maxrange)
+                {
+                    int colorid=int((draindata[0]->ranges[id]-vars->minrange)/(vars->maxrange-vars->minrange)*255+0.5);
+                    cv::Vec3b color=vars->colormap.at<cv::Vec3b>(colorid);
+                    cv::circle(image,cv::Point2i(j,i),1,cv::Scalar(color.val[0],color.val[1],color.val[2]));
+                }
+            }
+        }
+        QImage img(image.data,image.cols,image.rows,image.step,QImage::Format_RGB888);
+        vars->cameraviewer->setPixmap(QPixmap::fromImage(img));
+        vars->cameraviewer->resize(img.size());
+    }
+    else if(image.type()==CV_8UC1)
+    {
+        int i,j;
+        for(i=0;i<image.rows;i++)
+        {
+            for(j=0;j<image.cols;j++)
+            {
+                int id=i*image.cols+j;
+                if(draindata[0]->ranges[id]>vars->minrange&&draindata[0]->ranges[id]<=vars->maxrange)
+                {
+                    int colorid=int((draindata[0]->ranges[id]-vars->minrange)/(vars->maxrange-vars->minrange)*255+0.5);
+                    cv::circle(image,cv::Point2i(j,i),1,cv::Scalar(colorid));
+                }
+            }
+        }
+        QImage img(image.data,image.cols,image.rows,image.step,QImage::Format_Indexed8);
+        img.setColorTable(vars->colorTable);
+        vars->cameraviewer->setPixmap(QPixmap::fromImage(img));
+        vars->cameraviewer->resize(img.size());
+    }
+    else
+    {
+        vars->cameraviewer->setText("Not Supported");
+        return 0;
+    }
 	return 1;
 }
 
@@ -88,7 +179,7 @@ void DECOFUNC(visualizationWidgets)(void * paramsPtr, void * varsPtr, QList<QWid
 {
 	VisualizationMono_Algorithm_Integration_VelodyneCamera_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneCamera_Params *)paramsPtr;
 	VisualizationMono_Algorithm_Integration_VelodyneCamera_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneCamera_Vars *)varsPtr;
-	widgets=QList<QWidget *>();
+    widgets=QList<QWidget *>()<<(vars->tabwidget);
 	/*======Please Program above======*/
 	/*
 	Function: get visualization widgets [defined in vars].

@@ -67,7 +67,7 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-    cv::Mat extrinsicmat;
+
 };
 
 //The Output Data is defined as below
@@ -99,7 +99,8 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-    QTime timestamp;
+    QTime velodynetimestamp;
+    QTime ndt3dtimestamp;
     pcl::PointCloud<pcl::PointXYZI>::Ptr pclpoints;
     cv::Mat cvtransform;
 };

@@ -19,7 +19,9 @@
 */
 
 //*******************Please add other headers below*******************
-
+#include<opencv2/opencv.hpp>
+#include<pcl/point_cloud.h>
+#include<pcl/point_types.h>
 
 //The Vars is defined as below
 /*! \class ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Vars 
@@ -50,7 +52,24 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-
+    struct VelodyneBufferData
+    {
+        QTime timestamp;
+        pcl::PointCloud<pcl::PointXYZI>::Ptr pclpoints;
+    };
+    struct NDT3DBufferData
+    {
+        QTime timestamp;
+        cv::Mat cvtransform;
+    };
+    QVector<VelodyneBufferData> velodynebuffer;
+    QVector<NDT3DBufferData> ndt3dbuffer;
+    bool initcalib;
+    cv::Mat calibmat;
+    bool initvelodyne;
+    cv::Mat velodynemat;
+    bool initndt3d;
+    cv::Mat ndt3dmat;
 };
 
 /*! @}*/ 

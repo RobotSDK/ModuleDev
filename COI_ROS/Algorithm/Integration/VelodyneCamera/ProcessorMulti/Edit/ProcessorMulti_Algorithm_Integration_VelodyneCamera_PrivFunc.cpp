@@ -18,7 +18,10 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 	2: initialize variables (vars).
 	3: If everything is OK, return 1 for successful opening and vice versa.
 	*/
-	
+    vars->velodynebuffer.clear();
+    vars->camerabuffer.clear();
+    vars->velodyneinit=1;
+    vars->camerainit=1;
 	return 1;
 }
 
@@ -33,7 +36,10 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	1: handle/close variables (vars).
 	2: If everything is OK, return 1 for successful closing and vice versa.
 	*/
-	
+    vars->velodynebuffer.clear();
+    vars->camerabuffer.clear();
+    vars->velodyneinit=1;
+    vars->camerainit=1;
 	return 1;
 }
 
@@ -70,7 +76,7 @@ void DECOFUNC(getMultiInputDataSize)(void * paramsPtr, void * varsPtr, QList<int
 {
 	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params * params=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Params *)paramsPtr;
 	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars * vars=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars *)varsPtr;
-	inputDataSize=QList<int>();
+    inputDataSize=QList<int>()<<0<<0;
 	/*======Please Program above======*/
 	/*
 	Function: get input data size to be grabbed from buffer.
@@ -95,15 +101,197 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
 	QVector<SensorInternalEvent_Sensor_Camera_Data *> inputdata_1; copyQVector(inputdata_1,inputData[1]);
 	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Data * outputdata=(ProcessorMulti_Algorithm_Integration_VelodyneCamera_Data *)outputData;
 	outputPortIndex=QList<int>();
-	if(inputdata_0.size()==0){return 0;}
-	if(inputdata_1.size()==0){return 0;}
+//	if(inputdata_0.size()==0){return 0;}
+//	if(inputdata_1.size()==0){return 0;}
 	/*======Please Program below======*/
 	/*
 	Step 1: process inputdata_index, then store it into outputdata.
 	Step 2 [optional]: determine the outputPortIndex. (if not, outputdata will be sent by all ports)
 	E.g. outputPortIndex=QList<int>()<<(outportindex1)<<(outportindex2)...
-	*/
-	
+	*/    
+    if(vars->velodyneinit&&inputparams_0.size()>0)
+    {
+        params->velodyneextrinsicmat=inputparams_0[0]->extrinsicmat;
+        vars->velodyneinit=0;
+    }
+
+    if(vars->camerainit&&inputparams_1.size()>0)
+    {
+        params->cameraextrinsicmat=inputparams_1[0]->extrinsicmat;
+        params->cameramat=inputparams_1[0]->cameramat;
+        params->distcoeff=inputparams_1[0]->distcoeff;
+        vars->camerainit=0;
+    }
+
+    int i,n=inputdata_0.size();
+    for(i=n-1;i>=0;i--)
+    {
+        ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars::VelodyneBufferData data;
+        data.timestamp=inputdata_0[i]->timestamp;
+        data.pclpoints=inputdata_0[i]->pclpoints;
+        vars->velodynebuffer.push_back(data);
+    }
+
+    int j,m=inputdata_1.size();
+    for(j=m-1;j>=0;j--)
+    {
+        ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars::CameraBufferData data;
+        data.timestamp=inputdata_1[j]->timestamp;
+        data.cvimage=inputdata_1[j]->cvimage.clone();
+        vars->camerabuffer.push_back(data);
+    }
+
+    i=0;n=vars->velodynebuffer.size();
+    j=0;m=vars->camerabuffer.size();
+    if(n==0||m==0)
+    {
+        return 0;
+    }
+    int delta=0;
+    while(i<n&&j<m)
+    {
+        QTime velodynetimestamp=vars->velodynebuffer[i].timestamp;
+        QTime cameratimestamp=vars->camerabuffer[j].timestamp;
+        int tmpdelta=velodynetimestamp.msecsTo(cameratimestamp);
+        if(tmpdelta!=0)
+        {
+            if(delta==0)
+            {
+                delta=tmpdelta;
+                if(tmpdelta>0)
+                {
+                    i++;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+            else
+            {
+                if(abs(tmpdelta)<abs(delta))
+                {
+                    delta=tmpdelta;
+                    if(tmpdelta>0)
+                    {
+                        i++;
+                    }
+                    else
+                    {
+                        j++;
+                    }
+                }
+                else
+                {
+                    if(delta>0)
+                    {
+                        i--;
+                    }
+                    else
+                    {
+                        j--;
+                    }
+                    break;
+                }
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+    if(i==n)
+    {
+        vars->velodynebuffer.erase(vars->velodynebuffer.begin(),vars->velodynebuffer.begin()+i-1);
+        vars->camerabuffer.erase(vars->camerabuffer.begin(),vars->camerabuffer.begin()+j);
+        return 0;
+    }
+    if(j==m)
+    {
+        vars->velodynebuffer.erase(vars->velodynebuffer.begin(),vars->velodynebuffer.begin()+i);
+        vars->camerabuffer.erase(vars->camerabuffer.begin(),vars->camerabuffer.begin()+j-1);
+        return 0;
+    }
+
+    outputdata->velodynetimestamp=vars->velodynebuffer[i].timestamp;
+    outputdata->cameratimestamp=vars->camerabuffer[j].timestamp;
+
+    int k,pointsnum=vars->velodynebuffer[i].pclpoints->points.size();
+    cv::Mat velodynepoints(pointsnum,8,CV_32F,vars->velodynebuffer[i].pclpoints->points.data());  
+    cv::Mat pointscolor;
+    velodynepoints.convertTo(pointscolor,CV_64F);
+    cv::Mat points=pointscolor(cv::Rect(0,0,4,pointsnum));
+    cv::Mat camerapoints=points*(params->velodyneextrinsicmat.t())*(params->cameraextrinsicmat.inv().t());
+
+    outputdata->cvimage=vars->camerabuffer[j].cvimage;
+    cv::Size imagesize;
+    imagesize.width=outputdata->cvimage.cols;
+    imagesize.height=outputdata->cvimage.rows;
+    outputdata->pclpoints->header=vars->velodynebuffer[i].pclpoints->header;
+    outputdata->pclpoints->width=imagesize.width;
+    outputdata->pclpoints->height=imagesize.height;
+    pcl::PointXYZI tmppoint;
+    tmppoint.data[0]=0;tmppoint.data[1]=0;tmppoint.data[2]=0;tmppoint.data[3]=1;
+    tmppoint.data_c[0]=0;tmppoint.data_c[1]=0;tmppoint.data_c[2]=0;tmppoint.data_c[3]=0;
+    outputdata->pclpoints->points.resize(imagesize.width*imagesize.height,tmppoint);
+
+    outputdata->ranges.fill(0,imagesize.width*imagesize.height);
+
+    for(k=0;k<pointsnum;k++)
+    {
+        if(camerapoints.at<double>(k,2)<=0)
+        {
+            continue;
+        }
+        double tmpx=camerapoints.at<double>(k,0)/camerapoints.at<double>(k,2);
+        double tmpy=camerapoints.at<double>(k,1)/camerapoints.at<double>(k,2);
+        double r2=tmpx*tmpx+tmpy*tmpy;
+        double tmpdist=1+params->distcoeff.at<double>(0)*r2+params->distcoeff.at<double>(1)*r2*r2+params->distcoeff.at<double>(4)*r2*r2*r2;
+
+        double x=tmpx*tmpdist+2*params->distcoeff.at<double>(2)*tmpx*tmpy+params->distcoeff.at<double>(3)*(r2+2*tmpx*tmpx);
+        double y=tmpy*tmpdist+2*params->distcoeff.at<double>(3)*tmpx*tmpy+params->distcoeff.at<double>(2)*(r2+2*tmpy*tmpy);
+        x=params->cameramat.at<double>(0,0)*x+params->cameramat.at<double>(0,2);
+        y=params->cameramat.at<double>(1,1)*y+params->cameramat.at<double>(1,2);
+        if(x>=0 && x<=imagesize.width-1 && y>=0 && y<=imagesize.height-1)
+        {
+            int px=int(x+0.5);
+            int py=int(y+0.5);
+            int pid=py*imagesize.width+px;
+            if(outputdata->ranges[pid]==0||outputdata->ranges[pid]>camerapoints.at<double>(k,2))
+            {
+                outputdata->ranges[pid]=camerapoints.at<double>(k,2);
+                outputdata->pclpoints->points[pid].x=velodynepoints.at<float>(k,0);
+                outputdata->pclpoints->points[pid].y=velodynepoints.at<float>(k,1);
+                outputdata->pclpoints->points[pid].z=velodynepoints.at<float>(k,2);
+                outputdata->pclpoints->points[pid].data[3]=1.0f;
+                outputdata->pclpoints->points[pid].intensity=velodynepoints.at<float>(k,4);
+                outputdata->pclpoints->points[pid].data_c[1]=outputdata->cvimage.at<cv::Vec3b>(py,px).val[0]/255.0f;
+                outputdata->pclpoints->points[pid].data_c[2]=outputdata->cvimage.at<cv::Vec3b>(py,px).val[1]/255.0f;
+                outputdata->pclpoints->points[pid].data_c[3]=outputdata->cvimage.at<cv::Vec3b>(py,px).val[2]/255.0f;
+            }
+        }
+    }
+
+    outputdata->maxrange=0;
+    outputdata->minrange=1000000;
+    for(k=0;k<imagesize.width*imagesize.height;k++)
+    {
+        if(outputdata->ranges[k]==0)
+        {
+            continue;
+        }
+        if(outputdata->maxrange<outputdata->ranges[k])
+        {
+            outputdata->maxrange=outputdata->ranges[k];
+        }
+        if(outputdata->minrange>outputdata->ranges[k])
+        {
+            outputdata->minrange=outputdata->ranges[k];
+        }
+    }
+
+    vars->velodynebuffer.erase(vars->velodynebuffer.begin(),vars->velodynebuffer.begin()+i+1);
+    vars->camerabuffer.erase(vars->camerabuffer.begin(),vars->camerabuffer.begin()+j+1);
 	return 1;
 }
 

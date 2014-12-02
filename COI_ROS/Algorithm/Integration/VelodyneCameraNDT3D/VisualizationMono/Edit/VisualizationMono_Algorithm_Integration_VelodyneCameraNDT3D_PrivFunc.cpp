@@ -1,6 +1,6 @@
 //You need to program this file.
 
-#include "../NoEdit/VisualizationMono_Algorithm_Integration_VelodyneNDT3D_PrivFunc.h"
+#include "../NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_PrivFunc.h"
 
 //*******************Please add static libraries in .pro file*******************
 //e.g. unix:LIBS += ... or win32:LIBS += ...
@@ -8,8 +8,8 @@
 bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeType, QString qstrNodeClass, QString qstrNodeName, void * paramsPtr, void * varsPtr)
 {
 	XMLDomInterface xmlloader(qstrConfigName,qstrNodeType,qstrNodeClass,qstrNodeName);
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars *)varsPtr;
 	/*======Please Program below======*/
 	/*
 	Function: open node.
@@ -21,8 +21,8 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
     GetParamValue(xmlloader,vars,maxframes);
 
     vars->viewer->makeCurrent();
-    vars->velodynendt3dlist=glGenLists(vars->maxframes);
-    vars->viewer->addDisplayLists(vars->velodynendt3dlist,vars->maxframes);
+    vars->velodynecamerandt3dlist=glGenLists(vars->maxframes);
+    vars->viewer->addDisplayLists(vars->velodynecamerandt3dlist,vars->maxframes);
     vars->curid=0;
 
     vars->ndt3dlist=glGenLists(1);
@@ -38,8 +38,8 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 
 bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 {
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars *)varsPtr;
 	/*======Please Program below======*/
 	/*
 	Function: close node.
@@ -49,7 +49,7 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	*/
     vars->viewer->makeCurrent();
     vars->viewer->clearDisplayList();
-    glDeleteLists(vars->velodynendt3dlist,vars->maxframes);
+    glDeleteLists(vars->velodynecamerandt3dlist,vars->maxframes);
     vars->curid=0;
 
     glDeleteLists(vars->ndt3dlist,1);
@@ -59,13 +59,13 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
     camerapose(2,3)=10;
     vars->viewer->setCameraPose(camerapose);
     vars->viewer->update();
-    return 1;
+	return 1;
 }
 
 void DECOFUNC(getInternalTrigger)(void * paramsPtr, void * varsPtr, QObject * & internalTrigger, QString & internalTriggerSignal)
 {
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars *)varsPtr;
 	internalTrigger=NULL;
 	internalTriggerSignal=QString();
 	/*======Occasionally Program above======*/
@@ -80,8 +80,8 @@ void DECOFUNC(getInternalTrigger)(void * paramsPtr, void * varsPtr, QObject * & 
 
 void DECOFUNC(getMonoDrainDataSize)(void * paramsPtr, void * varsPtr, int & drainDataSize)
 {
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars *)varsPtr;
 	drainDataSize=0;
 	/*======Please Program above======*/
 	/*
@@ -93,19 +93,21 @@ void DECOFUNC(getMonoDrainDataSize)(void * paramsPtr, void * varsPtr, int & drai
 	*/
 }
 
-//Input Port #0: Buffer_Size = 0, Params_Type = ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params, Data_Type = ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Data
+//Input Port #0: Buffer_Size = 0, Params_Type = ProcessorMulti_Algorithm_Integration_VelodyneCameraNDT3D_Params, Data_Type = ProcessorMulti_Algorithm_Integration_VelodyneCameraNDT3D_Data
 bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<void *> drainParams, QVector<void *> drainData)
 {
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
-	QVector<ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Params *> drainparams; copyQVector(drainparams,drainParams);
-	QVector<ProcessorMulti_Algorithm_Integration_VelodyneNDT3D_Data *> draindata; copyQVector(draindata,drainData);
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars *)varsPtr;
+	QVector<ProcessorMulti_Algorithm_Integration_VelodyneCameraNDT3D_Params *> drainparams; copyQVector(drainparams,drainParams);
+	QVector<ProcessorMulti_Algorithm_Integration_VelodyneCameraNDT3D_Data *> draindata; copyQVector(draindata,drainData);
 	if(draindata.size()==0){return 0;}
 	/*======Please Program below======*/
 	/*
 	Function: process draindata.
 	*/
-    vars->tabwidget->setTabText(0,QString("%1 - %2").arg(draindata[0]->velodynetimestamp.toString("HH:mm:ss:zzz")).arg(draindata[0]->ndt3dtimestamp.toString("HH:mm:ss:zzz")));
+    vars->tabwidget->setTabText(0,QString("%1 - %2 - %3").arg(draindata[0]->velodynetimestamp.toString("HH:mm:ss:zzz"))
+                                                         .arg(draindata[0]->cameratimestamp.toString("HH:mm:ss:zzz"))
+                                                         .arg(draindata[0]->ndt3dtimestamp.toString("HH:mm:ss:zzz")));
 
     vars->viewer->makeCurrent();
 
@@ -118,7 +120,7 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
     void * colorsptr=pointsptr+sizeof(pcl::PointXYZ)+sizeof(float);
     glColorPointer(3,GL_FLOAT,sizeof(pcl::PointXYZI),colorsptr);
 
-    GLuint list=vars->velodynendt3dlist+vars->curid;
+    GLuint list=vars->velodynecamerandt3dlist+vars->curid;
     glNewList(list,GL_COMPILE);
     vars->curid=(vars->curid+1)%(vars->maxframes);
 
@@ -154,14 +156,13 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
     glDisableClientState(GL_VERTEX_ARRAY);
 
     vars->viewer->update();
-
 	return 1;
 }
 
 void DECOFUNC(visualizationWidgets)(void * paramsPtr, void * varsPtr, QList<QWidget *> & widgets)
 {
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Params *)paramsPtr;
-	VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneNDT3D_Vars *)varsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params * params=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Params *)paramsPtr;
+	VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars * vars=(VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars *)varsPtr;
     widgets=QList<QWidget *>()<<(vars->tabwidget);
 	/*======Please Program above======*/
 	/*

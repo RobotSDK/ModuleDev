@@ -102,7 +102,7 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
     void * pointsptr=(void *)(draindata[0]->pclpoints->points.data());
     glVertexPointer(3,GL_FLOAT,sizeof(pcl::PointXYZI),pointsptr);
 
-    void * colorsptr=pointsptr+sizeof(pcl::PointXYZ);
+    void * colorsptr=pointsptr+sizeof(pcl::PointXYZ)+sizeof(float);
     glColorPointer(3,GL_FLOAT,sizeof(pcl::PointXYZI),colorsptr);
 
     glNewList(vars->velodynelist,GL_COMPILE);

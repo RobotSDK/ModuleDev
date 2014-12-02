@@ -19,8 +19,10 @@
 */
 
 //*******************Please add other headers below*******************
-
-
+#include<opencv2/opencv.hpp>
+#include<pcl/point_cloud.h>
+#include<pcl/point_types.h>
+#include<qqueue.h>
 
 //The Vars is defined as below
 /*! \class ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars 
@@ -38,7 +40,7 @@ public:
 	*/
 	ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars() 
 	{
-		
+
 	}
 	/*! \fn ~ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars()
 		\brief The destructor of ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars. [required]
@@ -51,7 +53,20 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-
+    struct VelodyneBufferData
+    {
+        QTime timestamp;
+        pcl::PointCloud<pcl::PointXYZI>::Ptr pclpoints;
+    };
+    struct CameraBufferData
+    {
+        QTime timestamp;
+        cv::Mat cvimage;
+    };
+    QVector<VelodyneBufferData> velodynebuffer;
+    QVector<CameraBufferData> camerabuffer;
+    bool velodyneinit;
+    bool camerainit;
 };
 
 /*! @}*/ 
