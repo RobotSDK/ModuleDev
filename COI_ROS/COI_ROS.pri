@@ -22,7 +22,11 @@ SOURCES += \
 	./Algorithm/Integration/VelodyneCameraNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneCameraNDT3D_PrivFunc.cpp	\
 	./Algorithm/Integration/VelodyneCameraNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneCameraNDT3D_PrivCoreFunc.cpp	\
 	./Algorithm/Integration/VelodyneCameraNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_PrivFunc.cpp	\
-	./Algorithm/Integration/VelodyneCameraNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_PrivCoreFunc.cpp	
+	./Algorithm/Integration/VelodyneCameraNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_PrivCoreFunc.cpp	\
+	./Algorithm/Detection/DPM/SensorInternalEvent/Edit/SensorInternalEvent_Algorithm_Detection_DPM_PrivFunc.cpp	\
+	./Algorithm/Detection/DPM/SensorInternalEvent/NoEdit/SensorInternalEvent_Algorithm_Detection_DPM_PrivCoreFunc.cpp	\
+	./Algorithm/Detection/DPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Detection_DPM_PrivFunc.cpp	\
+	./Algorithm/Detection/DPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Detection_DPM_PrivCoreFunc.cpp	
 
 HEADERS += \
 	./Sensor/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_Velodyne_ParamsData.h	\
@@ -72,5 +76,13 @@ HEADERS += \
 	./Algorithm/Integration/VelodyneCameraNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_ParamsData.h	\
 	./Algorithm/Integration/VelodyneCameraNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_Vars.h	\
 	./Algorithm/Integration/VelodyneCameraNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_PrivFunc.h	\
-	./Algorithm/Integration/VelodyneCameraNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_PrivCoreFunc.h	
+	./Algorithm/Integration/VelodyneCameraNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraNDT3D_PrivCoreFunc.h	\
+	./Algorithm/Detection/DPM/SensorInternalEvent/Edit/SensorInternalEvent_Algorithm_Detection_DPM_ParamsData.h	\
+	./Algorithm/Detection/DPM/SensorInternalEvent/Edit/SensorInternalEvent_Algorithm_Detection_DPM_Vars.h	\
+	./Algorithm/Detection/DPM/SensorInternalEvent/NoEdit/SensorInternalEvent_Algorithm_Detection_DPM_PrivFunc.h	\
+	./Algorithm/Detection/DPM/SensorInternalEvent/NoEdit/SensorInternalEvent_Algorithm_Detection_DPM_PrivCoreFunc.h	\
+	./Algorithm/Detection/DPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Detection_DPM_ParamsData.h	\
+	./Algorithm/Detection/DPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Detection_DPM_Vars.h	\
+	./Algorithm/Detection/DPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Detection_DPM_PrivFunc.h	\
+	./Algorithm/Detection/DPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Detection_DPM_PrivCoreFunc.h	
 

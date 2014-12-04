@@ -45,9 +45,12 @@ unix {
     LIBS += -L/opt/ros/indigo/lib -lpcl_ros_tf
     LIBS += -L/opt/ros/indigo/lib -ltf_conversions
     LIBS += -L/usr/lib/x86_64-linux-gnu -lboost_system
+
+    INCLUDEPATH += /home/alexanderhmw/Git/Autoware/ros/devel/include
 }
 
 PROJNAME = COI_ROS
 INSTTYPE = MOD
+
 
 include(RobotSDK_Main.pri)
