@@ -30,7 +30,9 @@ SOURCES += \
 	./Algorithm/Integration/VelodyneCameraDPM/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VelodyneCameraDPM_PrivFunc.cpp	\
 	./Algorithm/Integration/VelodyneCameraDPM/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.cpp	\
 	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneCameraDPM_PrivFunc.cpp	\
-	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.cpp	
+	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_PrivFunc.cpp	\
+	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.cpp	
 
 HEADERS += \
 	./Sensor/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_Velodyne_ParamsData.h	\
@@ -96,5 +98,9 @@ HEADERS += \
 	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneCameraDPM_ParamsData.h	\
 	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneCameraDPM_Vars.h	\
 	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraDPM_PrivFunc.h	\
-	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.h	
+	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.h	\
+	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_ParamsData.h	\
+	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_Vars.h	\
+	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_PrivFunc.h	\
+	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.h	
 

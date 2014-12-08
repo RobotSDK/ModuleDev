@@ -171,14 +171,12 @@ bool DECOFUNC(processMultiDrainData)(void * paramsPtr, void * varsPtr, QVector<Q
     {
         vars->camerabuffer.erase(vars->camerabuffer.begin(),vars->camerabuffer.begin()+i-1);
         vars->dpmbuffer.erase(vars->dpmbuffer.begin(),vars->dpmbuffer.begin()+j);
-        qDebug()<<vars->camerabuffer[0].timestamp<<vars->dpmbuffer[0].timestamp;
         return 0;
     }
     if(j==m)
     {
         vars->camerabuffer.erase(vars->camerabuffer.begin(),vars->camerabuffer.begin()+i);
         vars->dpmbuffer.erase(vars->dpmbuffer.begin(),vars->dpmbuffer.begin()+j-1);
-        qDebug()<<vars->camerabuffer[0].timestamp<<vars->dpmbuffer[0].timestamp;
         return 0;
     }
 
@@ -186,20 +184,24 @@ bool DECOFUNC(processMultiDrainData)(void * paramsPtr, void * varsPtr, QVector<Q
 
     cv::Mat image=vars->camerabuffer[i].cvimage;
 
-    int k,l=vars->dpmbuffer[j].cvdetection.size();
-    for(k=0;k<l;k++)
-    {
-        cv::rectangle(image,vars->dpmbuffer[j].cvdetection[k],cv::Scalar(255,0,0),2);
-    }
-
     if(image.type()==CV_8UC3)
     {
+        int k,l=vars->dpmbuffer[j].cvdetection.size();
+        for(k=0;k<l;k++)
+        {
+            cv::rectangle(image,vars->dpmbuffer[j].cvdetection[k],cv::Scalar(255,0,0),2);
+        }
         QImage img(image.data,image.cols,image.rows,image.step,QImage::Format_RGB888);
         vars->viewer->setPixmap(QPixmap::fromImage(img));
         vars->viewer->resize(img.size());
     }
     else if(image.type()==CV_8UC1)
     {
+        int k,l=vars->dpmbuffer[j].cvdetection.size();
+        for(k=0;k<l;k++)
+        {
+            cv::rectangle(image,vars->dpmbuffer[j].cvdetection[k],cv::Scalar(255),2);
+        }
         QImage img(image.data,image.cols,image.rows,image.step,QImage::Format_Indexed8);
         img.setColorTable(vars->colorTable);
         vars->viewer->setPixmap(QPixmap::fromImage(img));

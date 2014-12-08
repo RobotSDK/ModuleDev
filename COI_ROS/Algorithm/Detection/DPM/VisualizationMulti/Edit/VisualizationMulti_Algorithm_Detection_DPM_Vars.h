@@ -19,7 +19,7 @@
 */
 
 //*******************Please add other headers below*******************
-
+#include<opencv2/opencv.hpp>
 
 //The Vars is defined as below
 /*! \class VisualizationMulti_Algorithm_Detection_DPM_Vars 
