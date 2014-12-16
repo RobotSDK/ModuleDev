@@ -107,14 +107,93 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
 	Step 2 [optional]: determine the outputPortIndex. (if not, outputdata will be sent by all ports)
 	E.g. outputPortIndex=QList<int>()<<(outportindex1)<<(outportindex2)...
 	Step 3: set the timeStamp for Simulator.
-	*/
-    outputdata->velodynepoints=vars->velodynesub->getMessage();
-    if(outputdata->velodynepoints==NULL)
+    */
+    sensor_msgs::PointCloud2ConstPtr msg=vars->velodynesub->getMessage();
+    if(msg==NULL)
     {
         return 0;
     }
-    int msec=(outputdata->velodynepoints->header.stamp.sec)%(24*60*60)*1000+(outputdata->velodynepoints->header.stamp.nsec)/1000000;
+    int msec=(msg->header.stamp.sec)%(24*60*60)*1000+(msg->header.stamp.nsec)/1000000;
     outputdata->timestamp=QTime::fromMSecsSinceStartOfDay(msec);
+
+    {
+        int width=0;
+        int height=64;
+        int pointnum=msg->height*msg->width;
+        int i;
+        char * data=(char *)(msg->data.data());
+        bool startflag=1,larger32flag,start32flag;
+        for(i=0;i<pointnum;i++)
+        {
+            float * tmpdata=(float *)(data+i*(msg->point_step));
+            int ringnum=*((u_int16_t *)(tmpdata+5));
+            if(startflag)
+            {
+                if(ringnum<32)
+                {
+                    larger32flag=0;
+                    start32flag=0;
+                }
+                else
+                {
+                    larger32flag=1;
+                    start32flag=1;
+                }
+                width++;
+                startflag=0;
+            }
+            else
+            {
+                if(ringnum<32)
+                {
+                    if(larger32flag)
+                    {
+                        if(!start32flag)
+                        {
+                            width++;
+                        }
+                        larger32flag=0;
+                    }
+                }
+                else
+                {
+                    if(!larger32flag)
+                    {
+                        if(start32flag)
+                        {
+                            width++;
+                        }
+                        larger32flag=1;
+                    }
+                }
+            }
+        }
+
+        outputdata->velodynepoints->header=msg->header;
+        outputdata->velodynepoints->width=width;
+        outputdata->velodynepoints->height=height;
+        outputdata->velodynepoints->fields=msg->fields;
+        outputdata->velodynepoints->is_bigendian=msg->is_bigendian;
+        outputdata->velodynepoints->point_step=msg->point_step;
+        outputdata->velodynepoints->row_step=msg->point_step;
+        outputdata->velodynepoints->data.resize(width*height*(outputdata->velodynepoints->point_step));
+        outputdata->velodynepoints->is_dense=msg->is_dense;
+
+        float PI=fabs(atan2(0.0,-1.0));
+        float res=2*PI/width;
+
+        char * destdata=(char *)(outputdata->velodynepoints->data.data());
+        for(i=0;i<pointnum;i++)
+        {
+            float * tmpdata=(float *)(data+i*(msg->point_step));
+            int colid=int((atan2(tmpdata[1],tmpdata[0])+PI)/res+0.5);
+            int ringnum=*((u_int16_t *)(tmpdata+5));
+
+            int id=(63-ringnum)*width+colid;
+            char * tmpdestdata=(char *)(destdata+id*(outputdata->velodynepoints->point_step));
+            memcpy(tmpdestdata,(char *)tmpdata,msg->point_step);
+        }
+    }
 
     outputdata->pclpoints->header.frame_id=outputdata->velodynepoints->header.frame_id;
     outputdata->pclpoints->header.seq=outputdata->velodynepoints->header.seq;

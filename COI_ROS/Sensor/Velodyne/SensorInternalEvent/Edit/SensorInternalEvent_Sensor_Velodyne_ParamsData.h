@@ -81,6 +81,7 @@ public:
 	*/
 	SensorInternalEvent_Sensor_Velodyne_Data() 
 	{
+        velodynepoints=sensor_msgs::PointCloud2Ptr(new sensor_msgs::PointCloud2);
         pclpoints=pcl::PointCloud<pcl::PointXYZI>::Ptr(new pcl::PointCloud<pcl::PointXYZI>);
 	}
 	/*! \fn ~SensorInternalEvent_Sensor_Velodyne_Data()
@@ -94,7 +95,7 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-    sensor_msgs::PointCloud2ConstPtr velodynepoints;
+    sensor_msgs::PointCloud2Ptr velodynepoints;
     QTime timestamp;
     pcl::PointCloud<pcl::PointXYZI>::Ptr pclpoints;
 };

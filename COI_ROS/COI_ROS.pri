@@ -32,7 +32,9 @@ SOURCES += \
 	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VelodyneCameraDPM_PrivFunc.cpp	\
 	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.cpp	\
 	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_PrivFunc.cpp	\
-	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.cpp	
+	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.cpp	\
+	./Algorithm/Segmentation/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Algorithm_Segmentation_Velodyne_PrivFunc.cpp	\
+	./Algorithm/Segmentation/Velodyne/SensorInternalEvent/NoEdit/SensorInternalEvent_Algorithm_Segmentation_Velodyne_PrivCoreFunc.cpp	
 
 HEADERS += \
 	./Sensor/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_Velodyne_ParamsData.h	\
@@ -102,5 +104,9 @@ HEADERS += \
 	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_ParamsData.h	\
 	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_Vars.h	\
 	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_PrivFunc.h	\
-	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.h	
+	./Algorithm/Integration/VelodyneCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VelodyneCameraDPM_PrivCoreFunc.h	\
+	./Algorithm/Segmentation/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Algorithm_Segmentation_Velodyne_ParamsData.h	\
+	./Algorithm/Segmentation/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Algorithm_Segmentation_Velodyne_Vars.h	\
+	./Algorithm/Segmentation/Velodyne/SensorInternalEvent/NoEdit/SensorInternalEvent_Algorithm_Segmentation_Velodyne_PrivFunc.h	\
+	./Algorithm/Segmentation/Velodyne/SensorInternalEvent/NoEdit/SensorInternalEvent_Algorithm_Segmentation_Velodyne_PrivCoreFunc.h	
 
