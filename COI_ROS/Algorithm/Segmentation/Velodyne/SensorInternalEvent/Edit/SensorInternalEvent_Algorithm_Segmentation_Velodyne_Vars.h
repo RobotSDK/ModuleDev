@@ -20,8 +20,7 @@
 
 //*******************Please add other headers below*******************
 #include<rosinterface.h>
-#include<pcl/point_cloud.h>
-#include<velodyne_pointcloud/point_types.h>
+#include<sensor_msgs/PointCloud2.h>
 
 //The Vars is defined as below
 /*! \class SensorInternalEvent_Algorithm_Segmentation_Velodyne_Vars 
@@ -42,7 +41,7 @@ public:
         topic="velodyne_points/labeled_pointcloud";
         queuesize=1000;
         queryinterval=10;
-        segmentsub=new ROSSub<pcl::PointCloud<velodyne_pointcloud::PointXYZIR>::ConstPtr>(topic,queuesize,queryinterval);
+        segmentsub=new ROSSub<sensor_msgs::PointCloud2ConstPtr>(topic,queuesize,queryinterval);
 	}
 	/*! \fn ~SensorInternalEvent_Algorithm_Segmentation_Velodyne_Vars()
 		\brief The destructor of SensorInternalEvent_Algorithm_Segmentation_Velodyne_Vars. [required]
@@ -62,7 +61,7 @@ public:
     QString topic;
     u_int32_t queuesize;
     int queryinterval;
-    ROSSub<pcl::PointCloud<velodyne_pointcloud::PointXYZIR>::ConstPtr> * segmentsub;
+    ROSSub<sensor_msgs::PointCloud2ConstPtr> * segmentsub;
 };
 
 /*! @}*/ 

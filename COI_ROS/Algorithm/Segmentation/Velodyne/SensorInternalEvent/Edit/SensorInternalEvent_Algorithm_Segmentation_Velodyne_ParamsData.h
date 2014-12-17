@@ -21,8 +21,7 @@
 //*******************Please add other headers below*******************
 #include<opencv2/opencv.hpp>
 #include<rosinterface.h>
-#include<pcl/point_cloud.h>
-#include<velodyne_pointcloud/point_types.h>
+#include<sensor_msgs/PointCloud2.h>
 
 //There is no input data headers.
 
@@ -94,7 +93,7 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-    pcl::PointCloud<velodyne_pointcloud::PointXYZIR>::ConstPtr  segmentations;
+    sensor_msgs::PointCloud2ConstPtr segmentations;
     QTime timestamp;
 };
 
