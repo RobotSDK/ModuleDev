@@ -102,12 +102,15 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
 
     int i,n=draindata[0]->segmentations->data.size()/draindata[0]->segmentations->point_step;
     char * data=(char *)(draindata[0]->segmentations->data.data());
+    glColor3f(1.0,1.0,1.0);
     for(i=0;i<n;i++)
     {
         float * tmpdata=(float *)(data+i*draindata[0]->segmentations->point_step);
         u_int16_t * label=(u_int16_t *)(tmpdata+5);
         cv::Vec3b color=vars->colormap.at<cv::Vec3b>(*label);
-        glColor3f(color[0]/255.0,color[1]/255.0,color[2]/255.0);
+        glColor4f(1.0,1.0,1.0,0.5);
+        glVertex3f(tmpdata[0],tmpdata[1],tmpdata[2]);
+        glColor4f(color[0]/255.0,color[1]/255.0,color[2]/255.0,0.5);
         glVertex3f(tmpdata[0],tmpdata[1],tmpdata[2]);
     }
 

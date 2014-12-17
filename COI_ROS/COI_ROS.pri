@@ -36,7 +36,15 @@ SOURCES += \
 	./Algorithm/Segmentation/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Algorithm_Segmentation_Velodyne_PrivFunc.cpp	\
 	./Algorithm/Segmentation/Velodyne/SensorInternalEvent/NoEdit/SensorInternalEvent_Algorithm_Segmentation_Velodyne_PrivCoreFunc.cpp	\
 	./Algorithm/Segmentation/Velodyne/VisualizationMono/Edit/VisualizationMono_Algorithm_Segmentation_Velodyne_PrivFunc.cpp	\
-	./Algorithm/Segmentation/Velodyne/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Segmentation_Velodyne_PrivCoreFunc.cpp	
+	./Algorithm/Segmentation/Velodyne/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Segmentation_Velodyne_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/SegmentationCamera/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_SegmentationCamera_PrivFunc.cpp	\
+	./Algorithm/Integration/SegmentationCamera/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_SegmentationCamera_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/SegmentationCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_SegmentationCamera_PrivFunc.cpp	\
+	./Algorithm/Integration/SegmentationCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCamera_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/SegmentationCameraDPM/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_SegmentationCameraDPM_PrivFunc.cpp	\
+	./Algorithm/Integration/SegmentationCameraDPM/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_SegmentationCameraDPM_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_PrivFunc.cpp	\
+	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_PrivCoreFunc.cpp	
 
 HEADERS += \
 	./Sensor/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_Velodyne_ParamsData.h	\
@@ -114,5 +122,21 @@ HEADERS += \
 	./Algorithm/Segmentation/Velodyne/VisualizationMono/Edit/VisualizationMono_Algorithm_Segmentation_Velodyne_ParamsData.h	\
 	./Algorithm/Segmentation/Velodyne/VisualizationMono/Edit/VisualizationMono_Algorithm_Segmentation_Velodyne_Vars.h	\
 	./Algorithm/Segmentation/Velodyne/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Segmentation_Velodyne_PrivFunc.h	\
-	./Algorithm/Segmentation/Velodyne/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Segmentation_Velodyne_PrivCoreFunc.h	
+	./Algorithm/Segmentation/Velodyne/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Segmentation_Velodyne_PrivCoreFunc.h	\
+	./Algorithm/Integration/SegmentationCamera/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_SegmentationCamera_ParamsData.h	\
+	./Algorithm/Integration/SegmentationCamera/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_SegmentationCamera_Vars.h	\
+	./Algorithm/Integration/SegmentationCamera/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_SegmentationCamera_PrivFunc.h	\
+	./Algorithm/Integration/SegmentationCamera/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_SegmentationCamera_PrivCoreFunc.h	\
+	./Algorithm/Integration/SegmentationCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_SegmentationCamera_ParamsData.h	\
+	./Algorithm/Integration/SegmentationCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_SegmentationCamera_Vars.h	\
+	./Algorithm/Integration/SegmentationCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCamera_PrivFunc.h	\
+	./Algorithm/Integration/SegmentationCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCamera_PrivCoreFunc.h	\
+	./Algorithm/Integration/SegmentationCameraDPM/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_SegmentationCameraDPM_ParamsData.h	\
+	./Algorithm/Integration/SegmentationCameraDPM/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_SegmentationCameraDPM_Vars.h	\
+	./Algorithm/Integration/SegmentationCameraDPM/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_SegmentationCameraDPM_PrivFunc.h	\
+	./Algorithm/Integration/SegmentationCameraDPM/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_SegmentationCameraDPM_PrivCoreFunc.h	\
+	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_ParamsData.h	\
+	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_Vars.h	\
+	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_PrivFunc.h	\
+	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_PrivCoreFunc.h	
 
