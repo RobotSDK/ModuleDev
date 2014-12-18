@@ -67,7 +67,10 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-
+    cv::Mat velodyneextrinsicmat;
+    cv::Mat cameraextrinsicmat;
+    cv::Mat cameramat;
+    cv::Mat distcoeff;
 };
 
 //The Output Data is defined as below
@@ -99,7 +102,13 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-
+    QTime segmentationtimestamp;
+    QTime cameratimestamp;
+    QVector<pcl::PointCloud<pcl::PointXYZI>::Ptr> pclsegmentation;
+    cv::Mat cvimage;
+    QVector<double> ranges;
+    float maxrange;
+    float minrange;
 };
 
 /*! \def ProcessorMulti_Algorithm_Integration_SegmentationCamera_OUTPUTPORTSNUMBER

@@ -108,13 +108,28 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
 	E.g. outputPortIndex=QList<int>()<<(outportindex1)<<(outportindex2)...
 	Step 3: set the timeStamp for Simulator.
 	*/
-    outputdata->segmentations=vars->segmentsub->getMessage();
-    if(outputdata->segmentations==NULL)
+    outputdata->segmentation=vars->segmentsub->getMessage();
+    if(outputdata->segmentation==NULL)
     {
         return 0;
     }
-    int msec=(outputdata->segmentations->header.stamp.sec)%(24*60*60)*1000+(outputdata->segmentations->header.stamp.nsec)/1000000;
+    int msec=(outputdata->segmentation->header.stamp.sec)%(24*60*60)*1000+(outputdata->segmentation->header.stamp.nsec)/1000000;
     outputdata->timestamp=QTime::fromMSecsSinceStartOfDay(msec);
+
+    outputdata->pclsegmentation.clear();
+    int i,n=outputdata->segmentation->data.size()/outputdata->segmentation->point_step;
+    char * data=(char *)(outputdata->segmentation->data.data());
+    for(i=0;i<n;i++)
+    {
+        float * tmpdata=(float *)(data+i*outputdata->segmentation->point_step);
+        u_int16_t * label=(u_int16_t *)(tmpdata+5);
+        if(label>=outputdata->pclsegmentation.size())
+        {
+            outputdata->pclsegmentation.resize(label+1);
+        }
+        outputdata->pclsegmentation[label]
+    }
+
 	return 1;
 }
 

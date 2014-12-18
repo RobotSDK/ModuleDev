@@ -22,6 +22,8 @@
 #include<opencv2/opencv.hpp>
 #include<rosinterface.h>
 #include<sensor_msgs/PointCloud2.h>
+#include<pcl/point_cloud.h>
+#include<pcl/point_types.h>
 
 //There is no input data headers.
 
@@ -93,8 +95,9 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-    sensor_msgs::PointCloud2ConstPtr segmentations;
+    sensor_msgs::PointCloud2ConstPtr segmentation;
     QTime timestamp;
+    QVector<pcl::PointCloud<pcl::PointXYZI>::Ptr> pclsegmentation;
 };
 
 /*! \def SensorInternalEvent_Algorithm_Segmentation_Velodyne_OUTPUTPORTSNUMBER

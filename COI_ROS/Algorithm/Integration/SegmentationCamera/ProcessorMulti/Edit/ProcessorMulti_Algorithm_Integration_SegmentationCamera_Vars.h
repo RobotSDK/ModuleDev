@@ -19,7 +19,10 @@
 */
 
 //*******************Please add other headers below*******************
-
+#include<opencv2/opencv.hpp>
+#include<pcl/point_cloud.h>
+#include<pcl/point_types.h>
+#include<qqueue.h>
 
 //The Vars is defined as below
 /*! \class ProcessorMulti_Algorithm_Integration_SegmentationCamera_Vars 
@@ -50,7 +53,11 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
+    struct SegmentationBufferData
+    {
+        QTime timestamp;
 
+    };
 };
 
 /*! @}*/ 

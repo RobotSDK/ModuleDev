@@ -107,8 +107,8 @@ public:
     pcl::PointCloud<pcl::PointXYZI>::Ptr pclpoints;
     cv::Mat cvimage;
     QVector<double> ranges;
-    float maxrange;
-    float minrange;
+    double maxrange;
+    double minrange;
 };
 
 /*! \def ProcessorMulti_Algorithm_Integration_VelodyneCamera_OUTPUTPORTSNUMBER

@@ -100,12 +100,11 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
 
     glBegin(GL_POINTS);
 
-    int i,n=draindata[0]->segmentations->data.size()/draindata[0]->segmentations->point_step;
-    char * data=(char *)(draindata[0]->segmentations->data.data());
-    glColor3f(1.0,1.0,1.0);
+    int i,n=draindata[0]->segmentation->data.size()/draindata[0]->segmentation->point_step;
+    char * data=(char *)(draindata[0]->segmentation->data.data());
     for(i=0;i<n;i++)
     {
-        float * tmpdata=(float *)(data+i*draindata[0]->segmentations->point_step);
+        float * tmpdata=(float *)(data+i*draindata[0]->segmentation->point_step);
         u_int16_t * label=(u_int16_t *)(tmpdata+5);
         cv::Vec3b color=vars->colormap.at<cv::Vec3b>(*label);
         glColor4f(1.0,1.0,1.0,0.5);
