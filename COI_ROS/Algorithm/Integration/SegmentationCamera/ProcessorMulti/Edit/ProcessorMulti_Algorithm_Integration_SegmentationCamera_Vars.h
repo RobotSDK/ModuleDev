@@ -56,8 +56,17 @@ public:
     struct SegmentationBufferData
     {
         QTime timestamp;
-
+        QVector<pcl::PointCloud<pcl::PointXYZI>::Ptr> pclsegmentation;
     };
+    struct CameraBufferData
+    {
+        QTime timestamp;
+        cv::Mat cvimage;
+    };
+    QVector<SegmentationBufferData> segmentationbuffer;
+    QVector<CameraBufferData> camerabuffer;
+    bool segmentationinit;
+    bool camerainit;
 };
 
 /*! @}*/ 

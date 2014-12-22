@@ -117,18 +117,72 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
     outputdata->timestamp=QTime::fromMSecsSinceStartOfDay(msec);
 
     outputdata->pclsegmentation.clear();
+    QVector<int> counts;
     int i,n=outputdata->segmentation->data.size()/outputdata->segmentation->point_step;
     char * data=(char *)(outputdata->segmentation->data.data());
     for(i=0;i<n;i++)
     {
         float * tmpdata=(float *)(data+i*outputdata->segmentation->point_step);
-        u_int16_t * label=(u_int16_t *)(tmpdata+5);
-        if(label>=outputdata->pclsegmentation.size())
+        u_int16_t label=*((u_int16_t *)(tmpdata+5));
+        if(label>=counts.size())
         {
-            outputdata->pclsegmentation.resize(label+1);
+            counts.resize(label+1);
         }
-        outputdata->pclsegmentation[label]
+        counts[label]++;
     }
+
+    int j,m=counts.size();
+    QVector<int> index;
+    index.resize(m);
+    int countid=0;
+    for(j=0;j<m;j++)
+    {
+        if(counts[j]==0)
+        {
+            index[j]=-1;
+            continue;
+        }
+        else
+        {
+            index[j]=countid;
+            countid++;
+        }
+    }
+
+    if(countid==0)
+    {
+        return 0;
+    }
+
+    outputdata->pclsegmentation.resize(countid);
+    for(j=0;j<m;j++)
+    {
+        if(index[j]==-1)
+        {
+            continue;
+        }
+        outputdata->pclsegmentation[index[j]]=pcl::PointCloud<pcl::PointXYZI>::Ptr(new pcl::PointCloud<pcl::PointXYZI>);
+        outputdata->pclsegmentation[index[j]]->resize(counts[j]);
+    }
+
+    for(i=n-1;i>=0;i--)
+    {
+        float * tmpdata=(float *)(data+i*outputdata->segmentation->point_step);
+        u_int16_t label=*((u_int16_t *)(tmpdata+5));
+        int id=counts[label]-1;
+        outputdata->pclsegmentation[index[label]]->points[id].x=tmpdata[0];
+        outputdata->pclsegmentation[index[label]]->points[id].y=tmpdata[1];
+        outputdata->pclsegmentation[index[label]]->points[id].z=tmpdata[2];
+        outputdata->pclsegmentation[index[label]]->points[id].data[3]=1.0;
+        outputdata->pclsegmentation[index[label]]->points[id].intensity=tmpdata[4];
+        cv::Vec3b color=vars->colormap.at<cv::Vec3b>(index[label]%256);
+        outputdata->pclsegmentation[index[label]]->points[id].data_c[1]=color[0]/255.0;
+        outputdata->pclsegmentation[index[label]]->points[id].data_c[2]=color[1]/255.0;
+        outputdata->pclsegmentation[index[label]]->points[id].data_c[3]=color[2]/255.0;
+        counts[label]--;
+    }
+
+
 
 	return 1;
 }

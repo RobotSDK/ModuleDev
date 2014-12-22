@@ -67,7 +67,7 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-    cv::Mat velodyneextrinsicmat;
+    cv::Mat segmentationextrinsicmat;
     cv::Mat cameraextrinsicmat;
     cv::Mat cameramat;
     cv::Mat distcoeff;
@@ -107,6 +107,7 @@ public:
     QVector<pcl::PointCloud<pcl::PointXYZI>::Ptr> pclsegmentation;
     cv::Mat cvimage;
     QVector<double> ranges;
+    QVector<int> labels;
     float maxrange;
     float minrange;
 };

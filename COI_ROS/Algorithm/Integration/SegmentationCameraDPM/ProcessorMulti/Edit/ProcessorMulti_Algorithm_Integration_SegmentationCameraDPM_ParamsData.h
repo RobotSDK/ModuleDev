@@ -67,7 +67,10 @@ public:
 	}
 public:
 	//*******************Please add variables below*******************
-
+    cv::Mat segmentationextrinsicmat;
+    cv::Mat cameraextrinsicmat;
+    cv::Mat cameramat;
+    cv::Mat distcoeff;
 };
 
 //The Output Data is defined as below
