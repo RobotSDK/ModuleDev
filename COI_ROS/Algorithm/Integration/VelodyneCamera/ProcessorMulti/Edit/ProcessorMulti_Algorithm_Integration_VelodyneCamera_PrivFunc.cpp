@@ -18,8 +18,7 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 	2: initialize variables (vars).
 	3: If everything is OK, return 1 for successful opening and vice versa.
 	*/
-    vars->velodynebuffer.clear();
-    vars->camerabuffer.clear();
+    vars->datasync.clear();
     vars->velodyneinit=1;
     vars->camerainit=1;
 	return 1;
@@ -36,8 +35,7 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	1: handle/close variables (vars).
 	2: If everything is OK, return 1 for successful closing and vice versa.
 	*/
-    vars->velodynebuffer.clear();
-    vars->camerabuffer.clear();
+    vars->datasync.clear();
     vars->velodyneinit=1;
     vars->camerainit=1;
 	return 1;
@@ -129,7 +127,7 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
         ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars::VelodyneBufferData data;
         data.timestamp=inputdata_0[i]->timestamp;
         data.pclpoints=inputdata_0[i]->pclpoints;
-        vars->velodynebuffer.push_back(data);
+        vars->datasync.addData1(data,data.timestamp);
     }
 
     int j,m=inputdata_1.size();
@@ -138,96 +136,31 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
         ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars::CameraBufferData data;
         data.timestamp=inputdata_1[j]->timestamp;
         data.cvimage=inputdata_1[j]->cvimage.clone();
-        vars->camerabuffer.push_back(data);
+        vars->datasync.addData2(data,data.timestamp);
     }
 
-    i=0;n=vars->velodynebuffer.size();
-    j=0;m=vars->camerabuffer.size();
-    if(n==0||m==0)
+    ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars::VelodyneBufferData data1;
+    ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars::CameraBufferData data2;
+    if(!vars->datasync.getSyncData(data1,data2))
     {
         return 0;
     }
-    int delta=0;
-    while(i<n&&j<m)
-    {
-        QTime velodynetimestamp=vars->velodynebuffer[i].timestamp;
-        QTime cameratimestamp=vars->camerabuffer[j].timestamp;
-        int tmpdelta=velodynetimestamp.msecsTo(cameratimestamp);
-        if(tmpdelta!=0)
-        {
-            if(delta==0)
-            {
-                delta=tmpdelta;
-                if(tmpdelta>0)
-                {
-                    i++;
-                }
-                else
-                {
-                    j++;
-                }
-            }
-            else
-            {
-                if(abs(tmpdelta)<abs(delta))
-                {
-                    delta=tmpdelta;
-                    if(tmpdelta>0)
-                    {
-                        i++;
-                    }
-                    else
-                    {
-                        j++;
-                    }
-                }
-                else
-                {
-                    if(delta>0)
-                    {
-                        i--;
-                    }
-                    else
-                    {
-                        j--;
-                    }
-                    break;
-                }
-            }
-        }
-        else
-        {
-            break;
-        }
-    }
-    if(i==n)
-    {
-        vars->velodynebuffer.erase(vars->velodynebuffer.begin(),vars->velodynebuffer.begin()+i-1);
-        vars->camerabuffer.erase(vars->camerabuffer.begin(),vars->camerabuffer.begin()+j);
-        return 0;
-    }
-    if(j==m)
-    {
-        vars->velodynebuffer.erase(vars->velodynebuffer.begin(),vars->velodynebuffer.begin()+i);
-        vars->camerabuffer.erase(vars->camerabuffer.begin(),vars->camerabuffer.begin()+j-1);
-        return 0;
-    }
 
-    outputdata->velodynetimestamp=vars->velodynebuffer[i].timestamp;
-    outputdata->cameratimestamp=vars->camerabuffer[j].timestamp;
+    outputdata->velodynetimestamp=data1.timestamp;
+    outputdata->cameratimestamp=data2.timestamp;
 
-    int k,pointsnum=vars->velodynebuffer[i].pclpoints->points.size();
-    cv::Mat velodynepoints(pointsnum,8,CV_32F,vars->velodynebuffer[i].pclpoints->points.data());  
+    int k,pointsnum=data1.pclpoints->points.size();
+    cv::Mat velodynepoints(pointsnum,8,CV_32F,data1.pclpoints->points.data());
     cv::Mat pointscolor;
     velodynepoints.convertTo(pointscolor,CV_64F);
     cv::Mat points=pointscolor(cv::Rect(0,0,4,pointsnum));
     cv::Mat camerapoints=points*(params->velodyneextrinsicmat.t())*(params->cameraextrinsicmat.inv().t());
 
-    outputdata->cvimage=vars->camerabuffer[j].cvimage;
+    outputdata->cvimage=data2.cvimage;
     cv::Size imagesize;
     imagesize.width=outputdata->cvimage.cols;
     imagesize.height=outputdata->cvimage.rows;
-    outputdata->pclpoints->header=vars->velodynebuffer[i].pclpoints->header;
+    outputdata->pclpoints->header=data1.pclpoints->header;
     outputdata->pclpoints->width=imagesize.width;
     outputdata->pclpoints->height=imagesize.height;
     pcl::PointXYZI tmppoint;
@@ -289,9 +222,6 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
             outputdata->minrange=outputdata->ranges[k];
         }
     }
-
-    vars->velodynebuffer.erase(vars->velodynebuffer.begin(),vars->velodynebuffer.begin()+i+1);
-    vars->camerabuffer.erase(vars->camerabuffer.begin(),vars->camerabuffer.begin()+j+1);
 	return 1;
 }
 

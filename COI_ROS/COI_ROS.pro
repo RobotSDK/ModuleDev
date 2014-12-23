@@ -19,13 +19,16 @@ unix {
 
     INCLUDEPATH += $$(HOME)/SDK/GLViewer/include
     INCLUDEPATH += $$(HOME)/SDK/ROSInterface/include
+    INCLUDEPATH += $$(HOME)/SDK/DataSync/include
 
     CONFIG(debug, debug|release){
         LIBS += -L$$(HOME)/SDK/GLViewer/lib -lGLViewer_Debug
         LIBS += -L$$(HOME)/SDK/ROSInterface/lib/ -lROSInterface_Debug
+        LIBS += -L$$(HOME)/SDK/DataSync/lib/ -lDataSync_Debug
     }else{
         LIBS += -L$$(HOME)/SDK/GLViewer/lib -lGLViewer_Release
         LIBS += -L$$(HOME)/SDK/ROSInterface/lib/ -lROSInterface_Release
+        LIBS += -L$$(HOME)/SDK/DataSync/lib/ -lDataSync_Release
     }
     LIBS *= -L/usr/lib/i386-linux-gnu -lGLU
 

@@ -23,6 +23,7 @@
 #include<pcl/point_cloud.h>
 #include<pcl/point_types.h>
 #include<qqueue.h>
+#include<datasync.h>
 
 //The Vars is defined as below
 /*! \class ProcessorMulti_Algorithm_Integration_VelodyneCamera_Vars 
@@ -63,8 +64,7 @@ public:
         QTime timestamp;
         cv::Mat cvimage;
     };
-    QVector<VelodyneBufferData> velodynebuffer;
-    QVector<CameraBufferData> camerabuffer;
+    DataSync<VelodyneBufferData,CameraBufferData> datasync;
     bool velodyneinit;
     bool camerainit;
 };
