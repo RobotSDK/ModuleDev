@@ -126,6 +126,11 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
     {
         outputdata->cvimage=cv::Mat(outputdata->cameraimage->height,outputdata->cameraimage->width,CV_8UC3,data);
     }
+    else if(QString::fromStdString(outputdata->cameraimage->encoding)=="bgr8")
+    {
+        cv::Mat tmpimage=cv::Mat(outputdata->cameraimage->height,outputdata->cameraimage->width,CV_8UC3,data);
+        cv::cvtColor(tmpimage,outputdata->cvimage,CV_BGR2RGB);
+    }
     else if(QString::fromStdString(outputdata->cameraimage->encoding)=="mono8")
     {
         outputdata->cvimage=cv::Mat(outputdata->cameraimage->height,outputdata->cameraimage->width,CV_8UC1,data);
