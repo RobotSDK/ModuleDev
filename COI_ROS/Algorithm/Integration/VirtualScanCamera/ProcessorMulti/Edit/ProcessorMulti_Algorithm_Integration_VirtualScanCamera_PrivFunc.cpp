@@ -99,8 +99,8 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
 	QVector<SensorInternalEvent_Sensor_Camera_Data *> inputdata_1; copyQVector(inputdata_1,inputData[1]);
 	ProcessorMulti_Algorithm_Integration_VirtualScanCamera_Data * outputdata=(ProcessorMulti_Algorithm_Integration_VirtualScanCamera_Data *)outputData;
 	outputPortIndex=QList<int>();
-	if(inputdata_0.size()==0){return 0;}
-	if(inputdata_1.size()==0){return 0;}
+//	if(inputdata_0.size()==0){return 0;}
+//	if(inputdata_1.size()==0){return 0;}
 	/*======Please Program below======*/
 	/*
 	Step 1: process inputdata_index, then store it into outputdata.

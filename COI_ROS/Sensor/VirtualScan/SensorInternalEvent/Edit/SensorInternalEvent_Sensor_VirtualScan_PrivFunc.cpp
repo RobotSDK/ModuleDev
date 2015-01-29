@@ -31,6 +31,9 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
     GetParamValue(xmlloader,vars,maxfloor);
     GetParamValue(xmlloader,vars,minceiling);
 
+    GetParamValue(xmlloader,vars,neighbordis);
+    GetParamValue(xmlloader,vars,pointsnum);
+
     if(!params->calibfilename.isEmpty())
     {
         cv::FileStorage fs;
@@ -129,6 +132,72 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
     vars->virtualscan.calculateVirtualScans(vars->beamnum,vars->heightstep,vars->minfloor,vars->maxceiling);
     double PI=3.141592654;
     vars->virtualscan.getUpperVirtualScan(vars->theta*PI/180.0,vars->maxfloor,vars->minceiling,outputdata->virtualscan,outputdata->heights);
+
+    int i,n=outputdata->virtualscan.size();
+    outputdata->label.fill(-1,n);
+    double density=2*PI/n;
+    outputdata->labelcount=0;
+    for(i=0;i<n;i++)
+    {
+        if(outputdata->virtualscan[i]>0&&outputdata->label[i]==-1)
+        {
+            QQueue<int> queue;
+            queue.push_back(i);
+            outputdata->label[i]=outputdata->labelcount;
+            QVector<int> records;
+            while(!queue.isEmpty())
+            {
+                int id=queue.front();
+                queue.pop_front();
+                records.push_back(id);
+                double theta=asin(vars->neighbordis/outputdata->virtualscan[id]);
+                int neighbornum=int(theta/density+0.5);
+                int j;
+                for(j=-neighbornum;j<=neighbornum;j++)
+                {
+                    if(j==0)
+                    {
+                        continue;
+                    }
+                    int nid=id+j;
+                    if(nid<0)
+                    {
+                        nid+=n;
+                    }
+                    else if(nid>=n)
+                    {
+                        nid-=n;
+                    }
+                    if(outputdata->virtualscan[nid]>0&&outputdata->label[nid]==-1)
+                    {
+                        double angle=fabs(j*density);
+                        double distance=outputdata->virtualscan[nid]*outputdata->virtualscan[nid]
+                                +outputdata->virtualscan[id]*outputdata->virtualscan[id]
+                                -2*cos(angle)*outputdata->virtualscan[nid]*outputdata->virtualscan[id];
+                        //double heightdis=fabs(outputdata->heights[nid]-outputdata->heights[id]);
+                        //distance=sqrt(distance*distance+heightdis*heightdis);
+                        if(distance<=vars->neighbordis)
+                        {
+                            outputdata->label[nid]=outputdata->labelcount;
+                            queue.push_back(nid);
+                        }
+                    }
+                }
+            }
+            if(records.size()>=vars->pointsnum)
+            {
+                outputdata->labelcount++;
+            }
+            else
+            {
+                int j,m=records.size();
+                for(j=0;j<m;j++)
+                {
+                    outputdata->label[records[j]]=-2;
+                }
+            }
+        }
+    }
 	return 1;
 }
 

@@ -95,6 +95,8 @@ public:
     QTime timestamp;
     QVector<double> virtualscan;
     QVector<double> heights;
+    QVector<int> label;
+    int labelcount;
 };
 
 /*! \def SensorInternalEvent_Sensor_VirtualScan_OUTPUTPORTSNUMBER

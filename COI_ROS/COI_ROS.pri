@@ -52,7 +52,11 @@ SOURCES += \
 	./Algorithm/Integration/VirtualScanCamera/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanCamera_PrivFunc.cpp	\
 	./Algorithm/Integration/VirtualScanCamera/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanCamera_PrivCoreFunc.cpp	\
 	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_PrivFunc.cpp	\
-	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_PrivCoreFunc.cpp	
+	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VirtualScanNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanNDT3D_PrivFunc.cpp	\
+	./Algorithm/Integration/VirtualScanNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanNDT3D_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_PrivFunc.cpp	\
+	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_PrivCoreFunc.cpp	
 
 HEADERS += \
 	./Sensor/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_Velodyne_ParamsData.h	\
@@ -162,5 +166,13 @@ HEADERS += \
 	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_ParamsData.h	\
 	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_Vars.h	\
 	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_PrivFunc.h	\
-	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_PrivCoreFunc.h	
+	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_PrivCoreFunc.h	\
+	./Algorithm/Integration/VirtualScanNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanNDT3D_ParamsData.h	\
+	./Algorithm/Integration/VirtualScanNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanNDT3D_Vars.h	\
+	./Algorithm/Integration/VirtualScanNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanNDT3D_PrivFunc.h	\
+	./Algorithm/Integration/VirtualScanNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanNDT3D_PrivCoreFunc.h	\
+	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_ParamsData.h	\
+	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_Vars.h	\
+	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_PrivFunc.h	\
+	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_PrivCoreFunc.h	
 

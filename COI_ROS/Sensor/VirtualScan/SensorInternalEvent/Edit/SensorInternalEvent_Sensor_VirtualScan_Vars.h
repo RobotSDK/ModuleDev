@@ -51,6 +51,9 @@ public:
         maxceiling=3;
         maxfloor=-1.2;
         minceiling=0.5;
+
+        neighbordis=0.3;
+        pointsnum=10;
 	}
 	/*! \fn ~SensorInternalEvent_Sensor_VirtualScan_Vars()
 		\brief The destructor of SensorInternalEvent_Sensor_VirtualScan_Vars. [required]
@@ -79,6 +82,9 @@ public:
     double maxceiling;
     double maxfloor;
     double minceiling;
+
+    double neighbordis;
+    int pointsnum;
 
     VirtualScan virtualscan;
 };

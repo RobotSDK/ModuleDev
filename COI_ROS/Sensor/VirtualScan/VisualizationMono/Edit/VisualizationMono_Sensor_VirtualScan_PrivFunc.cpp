@@ -89,17 +89,45 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
     double PI=3.141592654;
 
     QVector<double> virtualscan=draindata.front()->virtualscan;
+    QVector<int> label=draindata.front()->label;
+    int labelcount=draindata.front()->labelcount;
     int beamnum=virtualscan.size();
     double density=2*PI/beamnum;
 
     QPainter painter;
     painter.begin(&image);
 
-    painter.setPen(QColor(255,0,0));
     int i;
+    for(i=0;i<labelcount;i++)
+    {
+        int colorid=int(255*(double(i)/double(labelcount))+0.5);
+        cv::Vec3b color=vars->colortable.at<cv::Vec3b>(colorid);
+        painter.setPen(QColor(color[0],color[1],color[2]));
+        QVector<QPoint> points;
+        int j;
+        for(j=0;j<beamnum;j++)
+        {
+            if(label[j]==i)
+            {
+                double theta=j*density+PI/2;
+                int x=int((params->maxrange+virtualscan[j]*cos(theta))*ratio+0.5);
+                int y=int((params->maxrange+virtualscan[j]*sin(theta))*ratio+0.5);
+                x=params->imagesize-x;
+                points.push_back(QPoint(x,y));
+            }
+        }
+        int m=points.size();
+        painter.drawPolyline(points.data(),m);
+        for(j=0;j<m;j++)
+        {
+            painter.drawEllipse(points[j],1,1);
+        }
+    }
+
+    painter.setPen(QColor(0,0,0));
     for(i=0;i<beamnum;i++)
     {
-        if(virtualscan[i]>0)
+        if(label[i]==-2)
         {
             double theta=i*density+PI/2;
             int x=int((params->maxrange+virtualscan[i]*cos(theta))*ratio+0.5);

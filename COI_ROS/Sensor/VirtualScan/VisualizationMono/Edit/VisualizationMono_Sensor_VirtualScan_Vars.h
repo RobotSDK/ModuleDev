@@ -19,7 +19,7 @@
 */
 
 //*******************Please add other headers below*******************
-
+#include<opencv2/opencv.hpp>
 
 //The Vars is defined as below
 /*! \class VisualizationMono_Sensor_VirtualScan_Vars 
@@ -39,6 +39,13 @@ public:
 	{
         image=new QLabel("Virtual Scan");
         image->setAlignment(Qt::AlignCenter);
+        cv::Mat grayscale(1,256,CV_8U);
+        int i;
+        for(i=0;i<256;i++)
+        {
+            grayscale.at<uchar>(i)=i;
+        }
+        cv::applyColorMap(grayscale,colortable,cv::COLORMAP_RAINBOW);
 	}
 	/*! \fn ~VisualizationMono_Sensor_VirtualScan_Vars()
 		\brief The destructor of VisualizationMono_Sensor_VirtualScan_Vars. [required]
@@ -56,6 +63,7 @@ public:
 public:
 	//*******************Please add variables below*******************
     QLabel * image;
+    cv::Mat colortable;
 };
 
 /*! @}*/ 
