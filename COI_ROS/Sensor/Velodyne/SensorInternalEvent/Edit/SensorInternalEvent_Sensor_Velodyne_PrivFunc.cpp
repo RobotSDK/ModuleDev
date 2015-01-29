@@ -21,6 +21,7 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
     GetParamValue(xmlloader,params,calibfilename);
     GetParamValue(xmlloader,vars,topic);
     GetParamValue(xmlloader,vars,queuesize);
+    GetParamValue(xmlloader,vars,queryinterval);
 
     if(!params->calibfilename.isEmpty())
     {
@@ -46,8 +47,9 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
         return 0;
     }
     vars->velodynesub->resetTopic(vars->topic,vars->queuesize);
+    vars->velodynesub->resetQueryInterval(vars->queryinterval);
     vars->velodynesub->startReceiveSlot();
-	return 1;
+    return 1;
 }
 
 bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)

@@ -44,7 +44,15 @@ SOURCES += \
 	./Algorithm/Integration/SegmentationCameraDPM/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_SegmentationCameraDPM_PrivFunc.cpp	\
 	./Algorithm/Integration/SegmentationCameraDPM/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_SegmentationCameraDPM_PrivCoreFunc.cpp	\
 	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_PrivFunc.cpp	\
-	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_PrivCoreFunc.cpp	
+	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_PrivCoreFunc.cpp	\
+	./Sensor/VirtualScan/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_VirtualScan_PrivFunc.cpp	\
+	./Sensor/VirtualScan/SensorInternalEvent/NoEdit/SensorInternalEvent_Sensor_VirtualScan_PrivCoreFunc.cpp	\
+	./Sensor/VirtualScan/VisualizationMono/Edit/VisualizationMono_Sensor_VirtualScan_PrivFunc.cpp	\
+	./Sensor/VirtualScan/VisualizationMono/NoEdit/VisualizationMono_Sensor_VirtualScan_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VirtualScanCamera/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanCamera_PrivFunc.cpp	\
+	./Algorithm/Integration/VirtualScanCamera/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanCamera_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_PrivFunc.cpp	\
+	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_PrivCoreFunc.cpp	
 
 HEADERS += \
 	./Sensor/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_Velodyne_ParamsData.h	\
@@ -138,5 +146,21 @@ HEADERS += \
 	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_ParamsData.h	\
 	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_Vars.h	\
 	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_PrivFunc.h	\
-	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_PrivCoreFunc.h	
+	./Algorithm/Integration/SegmentationCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_SegmentationCameraDPM_PrivCoreFunc.h	\
+	./Sensor/VirtualScan/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_VirtualScan_ParamsData.h	\
+	./Sensor/VirtualScan/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_VirtualScan_Vars.h	\
+	./Sensor/VirtualScan/SensorInternalEvent/NoEdit/SensorInternalEvent_Sensor_VirtualScan_PrivFunc.h	\
+	./Sensor/VirtualScan/SensorInternalEvent/NoEdit/SensorInternalEvent_Sensor_VirtualScan_PrivCoreFunc.h	\
+	./Sensor/VirtualScan/VisualizationMono/Edit/VisualizationMono_Sensor_VirtualScan_ParamsData.h	\
+	./Sensor/VirtualScan/VisualizationMono/Edit/VisualizationMono_Sensor_VirtualScan_Vars.h	\
+	./Sensor/VirtualScan/VisualizationMono/NoEdit/VisualizationMono_Sensor_VirtualScan_PrivFunc.h	\
+	./Sensor/VirtualScan/VisualizationMono/NoEdit/VisualizationMono_Sensor_VirtualScan_PrivCoreFunc.h	\
+	./Algorithm/Integration/VirtualScanCamera/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanCamera_ParamsData.h	\
+	./Algorithm/Integration/VirtualScanCamera/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanCamera_Vars.h	\
+	./Algorithm/Integration/VirtualScanCamera/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanCamera_PrivFunc.h	\
+	./Algorithm/Integration/VirtualScanCamera/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanCamera_PrivCoreFunc.h	\
+	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_ParamsData.h	\
+	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_Vars.h	\
+	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_PrivFunc.h	\
+	./Algorithm/Integration/VirtualScanCamera/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCamera_PrivCoreFunc.h	
 

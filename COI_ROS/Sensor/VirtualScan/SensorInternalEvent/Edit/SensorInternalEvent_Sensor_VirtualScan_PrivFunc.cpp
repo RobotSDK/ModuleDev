@@ -1,6 +1,6 @@
 //You need to program this file.
 
-#include "../NoEdit/SensorInternalEvent_Sensor_Camera_PrivFunc.h"
+#include "../NoEdit/SensorInternalEvent_Sensor_VirtualScan_PrivFunc.h"
 
 //*******************Please add static libraries in .pro file*******************
 //e.g. unix:LIBS += ... or win32:LIBS += ...
@@ -8,8 +8,8 @@
 bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeType, QString qstrNodeClass, QString qstrNodeName, void * paramsPtr, void * varsPtr)
 {
 	XMLDomInterface xmlloader(qstrConfigName,qstrNodeType,qstrNodeClass,qstrNodeName);
-	SensorInternalEvent_Sensor_Camera_Params * params=(SensorInternalEvent_Sensor_Camera_Params *)paramsPtr;
-	SensorInternalEvent_Sensor_Camera_Vars * vars=(SensorInternalEvent_Sensor_Camera_Vars *)varsPtr;
+	SensorInternalEvent_Sensor_VirtualScan_Params * params=(SensorInternalEvent_Sensor_VirtualScan_Params *)paramsPtr;
+	SensorInternalEvent_Sensor_VirtualScan_Vars * vars=(SensorInternalEvent_Sensor_VirtualScan_Vars *)varsPtr;
 	/*======Please Program below======*/
 	/*
 	Function: open node.
@@ -23,45 +23,47 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
     GetParamValue(xmlloader,vars,queuesize);
     GetParamValue(xmlloader,vars,queryinterval);
 
+    GetParamValue(xmlloader,vars,beamnum);
+    GetParamValue(xmlloader,vars,heightstep);
+    GetParamValue(xmlloader,vars,theta);
+    GetParamValue(xmlloader,vars,minfloor);
+    GetParamValue(xmlloader,vars,maxceiling);
+    GetParamValue(xmlloader,vars,maxfloor);
+    GetParamValue(xmlloader,vars,minceiling);
+
     if(!params->calibfilename.isEmpty())
     {
         cv::FileStorage fs;
         fs.open(params->calibfilename.toStdString(),cv::FileStorage::READ);
         if(fs.isOpened())
         {
-            fs["CameraExtrinsicMat"]>>params->extrinsicmat;
-            fs["CameraMat"]>>params->cameramat;
-            fs["DistCoeff"]>>params->distcoeff;
+            fs["VelodyneExtrinsicMat"]>>params->extrinsicmat;
             fs.release();
         }
         else
         {
             params->extrinsicmat=cv::Mat::eye(4,4,CV_64F);
-            params->cameramat=cv::Mat::eye(3,3,CV_64F);
-            params->distcoeff=cv::Mat::zeros(1,5,CV_64F);
         }
     }
     else
     {
         params->extrinsicmat=cv::Mat::eye(4,4,CV_64F);
-        params->cameramat=cv::Mat::eye(3,3,CV_64F);
-        params->distcoeff=cv::Mat::zeros(1,5,CV_64F);
     }
 
-    if(vars->camerasub==NULL)
+    if(vars->velodynesub==NULL)
     {
         return 0;
     }
-    vars->camerasub->resetTopic(vars->topic,vars->queuesize);
-    vars->camerasub->resetQueryInterval(vars->queryinterval);
-    vars->camerasub->startReceiveSlot();
+    vars->velodynesub->resetTopic(vars->topic,vars->queuesize);
+    vars->velodynesub->resetQueryInterval(vars->queryinterval);
+    vars->velodynesub->startReceiveSlot();
 	return 1;
 }
 
 bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 {
-	SensorInternalEvent_Sensor_Camera_Params * params=(SensorInternalEvent_Sensor_Camera_Params *)paramsPtr;
-	SensorInternalEvent_Sensor_Camera_Vars * vars=(SensorInternalEvent_Sensor_Camera_Vars *)varsPtr;
+	SensorInternalEvent_Sensor_VirtualScan_Params * params=(SensorInternalEvent_Sensor_VirtualScan_Params *)paramsPtr;
+	SensorInternalEvent_Sensor_VirtualScan_Vars * vars=(SensorInternalEvent_Sensor_VirtualScan_Vars *)varsPtr;
 	/*======Please Program below======*/
 	/*
 	Function: close node.
@@ -69,15 +71,15 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	1: handle/close variables (vars).
 	2: If everything is OK, return 1 for successful closing and vice versa.
 	*/
-    vars->camerasub->stopReceiveSlot();
+    vars->velodynesub->stopReceiveSlot();
 	return 1;
 }
 
 void DECOFUNC(getInternalTrigger)(void * paramsPtr, void * varsPtr, QObject * & internalTrigger, QString & internalTriggerSignal)
 {
-	SensorInternalEvent_Sensor_Camera_Params * params=(SensorInternalEvent_Sensor_Camera_Params *)paramsPtr;
-	SensorInternalEvent_Sensor_Camera_Vars * vars=(SensorInternalEvent_Sensor_Camera_Vars *)varsPtr;
-    internalTrigger=vars->camerasub;
+	SensorInternalEvent_Sensor_VirtualScan_Params * params=(SensorInternalEvent_Sensor_VirtualScan_Params *)paramsPtr;
+	SensorInternalEvent_Sensor_VirtualScan_Vars * vars=(SensorInternalEvent_Sensor_VirtualScan_Vars *)varsPtr;
+    internalTrigger=vars->velodynesub;
     internalTriggerSignal=QString(SIGNAL(receiveMessageSignal()));
 	/*======Occasionally Program above======*/
 	/*
@@ -91,9 +93,9 @@ void DECOFUNC(getInternalTrigger)(void * paramsPtr, void * varsPtr, QObject * & 
 
 void DECOFUNC(initializeOutputData)(void * paramsPtr, void * varsPtr, boost::shared_ptr<void> & outputDataPtr)
 {
-	SensorInternalEvent_Sensor_Camera_Params * params=(SensorInternalEvent_Sensor_Camera_Params *)paramsPtr;
-	SensorInternalEvent_Sensor_Camera_Vars * vars=(SensorInternalEvent_Sensor_Camera_Vars *)varsPtr;
-	outputDataPtr=boost::shared_ptr<void>(new SensorInternalEvent_Sensor_Camera_Data());
+	SensorInternalEvent_Sensor_VirtualScan_Params * params=(SensorInternalEvent_Sensor_VirtualScan_Params *)paramsPtr;
+	SensorInternalEvent_Sensor_VirtualScan_Vars * vars=(SensorInternalEvent_Sensor_VirtualScan_Vars *)varsPtr;
+	outputDataPtr=boost::shared_ptr<void>(new SensorInternalEvent_Sensor_VirtualScan_Data());
 	/*======Occasionally Program below/above======*/
 	/*
 	Function: initial output data.
@@ -104,9 +106,9 @@ void DECOFUNC(initializeOutputData)(void * paramsPtr, void * varsPtr, boost::sha
 
 bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outputData, QList<int> & outputPortIndex, QTime & timeStamp)
 {
-	SensorInternalEvent_Sensor_Camera_Params * params=(SensorInternalEvent_Sensor_Camera_Params *)paramsPtr;
-	SensorInternalEvent_Sensor_Camera_Vars * vars=(SensorInternalEvent_Sensor_Camera_Vars *)varsPtr;
-	SensorInternalEvent_Sensor_Camera_Data * outputdata=(SensorInternalEvent_Sensor_Camera_Data *)outputData;
+	SensorInternalEvent_Sensor_VirtualScan_Params * params=(SensorInternalEvent_Sensor_VirtualScan_Params *)paramsPtr;
+	SensorInternalEvent_Sensor_VirtualScan_Vars * vars=(SensorInternalEvent_Sensor_VirtualScan_Vars *)varsPtr;
+	SensorInternalEvent_Sensor_VirtualScan_Data * outputdata=(SensorInternalEvent_Sensor_VirtualScan_Data *)outputData;
 	outputPortIndex=QList<int>();
 	timeStamp=QTime();
 	/*======Please Program below======*/
@@ -116,31 +118,17 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
 	E.g. outputPortIndex=QList<int>()<<(outportindex1)<<(outportindex2)...
 	Step 3: set the timeStamp for Simulator.
 	*/
-    outputdata->cameraimage=vars->camerasub->getMessage();
-    if(outputdata->cameraimage==NULL)
+    vars->virtualscan.velodynedata=vars->velodynesub->getMessage();
+    if(vars->virtualscan.velodynedata==NULL)
     {
         return 0;
     }
-    int msec=(outputdata->cameraimage->header.stamp.sec)%(24*60*60)*1000+(outputdata->cameraimage->header.stamp.nsec)/1000000;
+    int msec=(vars->virtualscan.velodynedata->header.stamp.sec)%(24*60*60)*1000+(vars->virtualscan.velodynedata->header.stamp.nsec)/1000000;
     outputdata->timestamp=QTime::fromMSecsSinceStartOfDay(msec);
-    void * data=(void *)(outputdata->cameraimage->data.data());
-    if(QString::fromStdString(outputdata->cameraimage->encoding)=="rgb8")
-    {
-        outputdata->cvimage=cv::Mat(outputdata->cameraimage->height,outputdata->cameraimage->width,CV_8UC3,data);
-    }
-    else if(QString::fromStdString(outputdata->cameraimage->encoding)=="bgr8")
-    {
-        cv::Mat tmpimage=cv::Mat(outputdata->cameraimage->height,outputdata->cameraimage->width,CV_8UC3,data);
-        cv::cvtColor(tmpimage,outputdata->cvimage,CV_BGR2RGB);
-    }
-    else if(QString::fromStdString(outputdata->cameraimage->encoding)=="mono8")
-    {
-        outputdata->cvimage=cv::Mat(outputdata->cameraimage->height,outputdata->cameraimage->width,CV_8UC1,data);
-    }
-    else
-    {
-        return 0;
-    }
+
+    vars->virtualscan.calculateVirtualScans(vars->beamnum,vars->heightstep,vars->minfloor,vars->maxceiling);
+    double PI=3.141592654;
+    vars->virtualscan.getUpperVirtualScan(vars->theta*PI/180.0,vars->maxfloor,vars->minceiling,outputdata->virtualscan,outputdata->heights);
 	return 1;
 }
 
