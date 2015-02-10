@@ -105,8 +105,12 @@ public:
     QTime virtualscantimestamp;
     QTime cameratimestamp;
     cv::Mat cvimage;
+    QVector<QPoint> imagepoint;
     QVector<QPointF> xypoint;
     QVector<double> heights;
+    QVector<int> label;
+    QVector<QVector<int> > index;
+    int labelcount;
 };
 
 /*! \def ProcessorMulti_Algorithm_Integration_VirtualScanCamera_OUTPUTPORTSNUMBER

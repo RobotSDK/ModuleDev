@@ -96,6 +96,7 @@ public:
     QVector<double> virtualscan;
     QVector<double> heights;
     QVector<int> label;
+    QVector<QVector<int> > index;
     int labelcount;
 };
 

@@ -44,11 +44,15 @@ public:
         tabwidget=new QTabWidget;
         tabwidget->addTab(scroll,"TimeStamp");
 
+        cv::Mat grayscale(256,1,CV_8UC1);
+
         int i;
         for (i=0; i<256; i++)
         {
             colorTable.push_back(qRgb(i,i,i));
+            grayscale.at<uchar>(i)=i;
         }
+        cv::applyColorMap(grayscale,colormap,cv::COLORMAP_RAINBOW);
 	}
 	/*! \fn ~VisualizationMono_Algorithm_Integration_VirtualScanCamera_Vars()
 		\brief The destructor of VisualizationMono_Algorithm_Integration_VirtualScanCamera_Vars. [required]
@@ -68,6 +72,7 @@ public:
     QTabWidget * tabwidget;
     QLabel * viewer;
     QVector<QRgb> colorTable;
+    cv::Mat colormap;
 };
 
 /*! @}*/ 

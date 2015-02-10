@@ -186,6 +186,7 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
             }
             if(records.size()>=vars->pointsnum)
             {
+                outputdata->index.push_back(records);
                 outputdata->labelcount++;
             }
             else

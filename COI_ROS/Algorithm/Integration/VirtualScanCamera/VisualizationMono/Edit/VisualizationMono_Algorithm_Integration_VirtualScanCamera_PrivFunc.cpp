@@ -86,7 +86,16 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
 
     if(image.type()==CV_8UC3)
     {
-        QImage img(image.data,image.cols,image.rows,image.step,QImage::Format_RGB888);
+        cv::Mat tmpimage=image.clone();
+        int i,n=draindata.front()->imagepoint.size();
+        for(i=0;i<n;i++)
+        {
+            cv::Point center=cv::Point(draindata.front()->imagepoint[i].x(),draindata.front()->imagepoint[i].y());
+            int colorid=int(double(draindata.front()->label[i])/double(draindata.front()->labelcount)*256);
+            cv::Vec3b color=vars->colormap.at<cv::Vec3b>(colorid);
+            cv::circle(tmpimage,center,2,cv::Scalar(color[0],color[1],color[2]));
+        }
+        QImage img(tmpimage.data,tmpimage.cols,tmpimage.rows,tmpimage.step,QImage::Format_RGB888);
         vars->viewer->setPixmap(QPixmap::fromImage(img));
         vars->viewer->resize(img.size());
     }

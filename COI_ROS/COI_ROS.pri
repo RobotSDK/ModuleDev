@@ -56,7 +56,13 @@ SOURCES += \
 	./Algorithm/Integration/VirtualScanNDT3D/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanNDT3D_PrivFunc.cpp	\
 	./Algorithm/Integration/VirtualScanNDT3D/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanNDT3D_PrivCoreFunc.cpp	\
 	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_PrivFunc.cpp	\
-	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_PrivCoreFunc.cpp	
+        ./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_PrivCoreFunc.cpp\
+	./Algorithm/Integration/VirtualScanCameraDPM/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivFunc.cpp	\
+	./Algorithm/Integration/VirtualScanCameraDPM/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanCameraDPM_PrivFunc.cpp	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.cpp	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivFunc.cpp	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.cpp	
 
 HEADERS += \
 	./Sensor/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_Velodyne_ParamsData.h	\
@@ -174,5 +180,17 @@ HEADERS += \
 	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_ParamsData.h	\
 	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_Vars.h	\
 	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_PrivFunc.h	\
-	./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_PrivCoreFunc.h	
+        ./Algorithm/Integration/VirtualScanNDT3D/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_PrivCoreFunc.h\
+	./Algorithm/Integration/VirtualScanCameraDPM/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanCameraDPM_ParamsData.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/ProcessorMulti/Edit/ProcessorMulti_Algorithm_Integration_VirtualScanCameraDPM_Vars.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivFunc.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/ProcessorMulti/NoEdit/ProcessorMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanCameraDPM_ParamsData.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanCameraDPM_Vars.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCameraDPM_PrivFunc.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_ParamsData.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_Vars.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivFunc.h	\
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.h	
 

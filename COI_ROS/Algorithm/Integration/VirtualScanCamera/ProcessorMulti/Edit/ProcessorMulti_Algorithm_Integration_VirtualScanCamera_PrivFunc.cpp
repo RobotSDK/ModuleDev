@@ -128,6 +128,9 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
         data.timestamp=inputdata_0[i]->timestamp;
         data.virtualscan=inputdata_0[i]->virtualscan;
         data.heights=inputdata_0[i]->heights;
+        data.label=inputdata_0[i]->label;
+        data.index=inputdata_0[i]->index;
+        data.labelcount=inputdata_0[i]->labelcount;
         vars->datasync.addData1(data,data.timestamp);
     }
 
@@ -170,9 +173,13 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
 
     cv::Mat camerapoints=points*(params->velodyneextrinsicmat.t())*(params->cameraextrinsicmat.inv().t());
 
+    outputdata->imagepoint.clear();
     outputdata->xypoint.clear();
     outputdata->heights.clear();
+    outputdata->label.clear();
 
+    outputdata->labelcount=data1.labelcount;
+    outputdata->index.resize(outputdata->labelcount);
     for(i=0;i<beamnum;i++)
     {
         if(camerapoints.at<double>(i,2)<=0)
@@ -192,9 +199,14 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
         {
             int px=int(x+0.5);
             int py=int(y+0.5);
-            cv::circle(outputdata->cvimage,cv::Point(px,py),2,cv::Scalar(255,0,0),1);
+            outputdata->imagepoint.push_back(QPoint(px,py));
             outputdata->xypoint.push_back(QPointF(camerapoints.at<double>(i,0),camerapoints.at<double>(i,1)));
             outputdata->heights.push_back(camerapoints.at<double>(i,2));
+            outputdata->label.push_back(data1.label[i]);
+            if(data1.label[i]>=0)
+            {
+                outputdata->index[data1.label[i]].push_back(outputdata->xypoint.size()-1);
+            }
         }
     }
 	return 1;
