@@ -19,7 +19,7 @@
 */
 
 //*******************Please add other headers below*******************
-#include<virtualscan.h>
+#include<fastvirtualscan.h>
 #include<rosinterface.h>
 #include<sensor_msgs/PointCloud2.h>
 
@@ -51,6 +51,7 @@ public:
         maxceiling=3;
         maxfloor=-1.2;
         minceiling=0.5;
+        rotation=3;
 
         neighbordis=0.3;
         pointsnum=10;
@@ -82,11 +83,12 @@ public:
     double maxceiling;
     double maxfloor;
     double minceiling;
+    double rotation;
 
     double neighbordis;
     int pointsnum;
 
-    VirtualScan virtualscan;
+    FastVirtualScan virtualscan;
 };
 
 /*! @}*/ 

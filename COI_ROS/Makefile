@@ -14,11 +14,11 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DRobotSDK_ModuleDev -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -D_REENTRANT -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -O2 -D_REENTRANT -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I../../../Qt/5.3/gcc_64/mkspecs/linux-g++ -I. -I/usr/include/eigen3 -I/usr/include/pcl-1.7 -I../../../GLViewer/include -I../../../ROSInterface/include -I../../../DataSync/include -I../../../VirtualScan/include -I/opt/ros/indigo/include -I../../../../Git/Autoware/ros/devel/include -I. -I../../Kernel/include -I../../ModuleDev -I../../Module/include -I../../../Qt/5.3/gcc_64/include -I../../../Qt/5.3/gcc_64/include/QtOpenGL -I../../../Qt/5.3/gcc_64/include/QtWidgets -I../../../Qt/5.3/gcc_64/include/QtXml -I../../../Qt/5.3/gcc_64/include/QtGui -I../../../Qt/5.3/gcc_64/include/QtCore -I../../../../Build/MOD/COI_ROS/MOC
+CXXFLAGS      = -pipe -fopenmp -O2 -D_REENTRANT -Wall -W -fPIC $(DEFINES)
+INCPATH       = -I../../../Qt/5.3/gcc_64/mkspecs/linux-g++ -I. -I/usr/include/eigen3 -I/usr/include/pcl-1.7 -I../../../GLViewer/include -I../../../ROSInterface/include -I../../../DataSync/include -I../../../FastVirtualScan/include -I/opt/ros/indigo/include -I../../../../Git/Autoware/ros/devel/include -I. -I../../Kernel/include -I../../ModuleDev -I../../Module/include -I../../../Qt/5.3/gcc_64/include -I../../../Qt/5.3/gcc_64/include/QtOpenGL -I../../../Qt/5.3/gcc_64/include/QtWidgets -I../../../Qt/5.3/gcc_64/include/QtXml -I../../../Qt/5.3/gcc_64/include/QtGui -I../../../Qt/5.3/gcc_64/include/QtCore -I../../../../Build/MOD/COI_ROS/MOC
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/home/alexanderhmw/SDK/Qt/5.3/gcc_64 -Wl,-rpath,/home/alexanderhmw/SDK/Qt/5.3/gcc_64/lib -shared -Wl,-soname,libCOI_ROS_Release.so.1
-LIBS          = $(SUBLIBS) -L/usr/lib -lpcl_io -lpcl_common -lpcl_filters -lpcl_search -lpcl_kdtree -lpcl_features -lpcl_segmentation -L/usr/lib/x86_64-linux-gnu -lopencv_core -lopencv_highgui -lopencv_features2d -lopencv_objdetect -lopencv_contrib -L/home/alexanderhmw/SDK/GLViewer/lib -lGLViewer_Release -L/home/alexanderhmw/SDK/ROSInterface/lib/ -lROSInterface_Release -L/home/alexanderhmw/SDK/DataSync/lib/ -lDataSync_Release -L/home/alexanderhmw/SDK/VirtualScan/lib/ -lVirtualScan_Release -L/usr/lib/i386-linux-gnu -lGLU -L/opt/ros/indigo/lib -lroscpp -lrosconsole -lroscpp_serialization -lrostime -lxmlrpcpp -lcpp_common -lrosconsole_log4cxx -lrosconsole_backend_interface -ltf -ltf2 -ltf2_ros -lpcl_ros_tf -ltf_conversions -lactionlib -lboost_system -L/home/alexanderhmw/SDK/RobotSDK/Kernel/lib/Release -lKernel -L/home/alexanderhmw/SDK/Qt/5.3/gcc_64/lib -lQt5OpenGL -L/usr/X11R6/lib64 -lQt5Widgets -lQt5Xml -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/lib -lpcl_io -lpcl_common -lpcl_filters -lpcl_search -lpcl_kdtree -lpcl_features -lpcl_segmentation -L/usr/lib/x86_64-linux-gnu -lopencv_core -lopencv_highgui -lopencv_features2d -lopencv_objdetect -lopencv_contrib -L/home/alexanderhmw/SDK/GLViewer/lib -lGLViewer_Release -L/home/alexanderhmw/SDK/ROSInterface/lib/ -lROSInterface_Release -L/home/alexanderhmw/SDK/DataSync/lib/ -lDataSync_Release -L/home/alexanderhmw/SDK/FastVirtualScan/lib/ -lFastVirtualScan_Release -L/usr/lib/i386-linux-gnu -lGLU -L/opt/ros/indigo/lib -lroscpp -lrosconsole -lroscpp_serialization -lrostime -lxmlrpcpp -lcpp_common -lrosconsole_log4cxx -lrosconsole_backend_interface -ltf -ltf2 -ltf2_ros -lpcl_ros_tf -ltf_conversions -lactionlib -lboost_system -fopenmp -L/home/alexanderhmw/SDK/RobotSDK/Kernel/lib/Release -lKernel -L/home/alexanderhmw/SDK/Qt/5.3/gcc_64/lib -lQt5OpenGL -L/usr/X11R6/lib64 -lQt5Widgets -lQt5Xml -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /home/alexanderhmw/SDK/Qt/5.3/gcc_64/bin/qmake
@@ -21528,8 +21528,10 @@ compiler_clean:
 		/opt/ros/indigo/include/std_msgs/Header.h \
 		/opt/ros/indigo/include/sensor_msgs/PointField.h \
 		Sensor/VirtualScan/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_VirtualScan_Vars.h \
-		../../../VirtualScan/include/virtualscan.h \
+		../../../FastVirtualScan/include/fastvirtualscan.h \
 		../../../Qt/5.3/gcc_64/include/QtCore/QVector \
+		../../../Qt/5.3/gcc_64/include/QtCore/QtAlgorithms \
+		../../../Qt/5.3/gcc_64/include/QtCore/QtGlobal \
 		../../../ROSInterface/include/rosinterface.h \
 		../../../Qt/5.3/gcc_64/include/QtCore/QObject \
 		../../../Qt/5.3/gcc_64/include/QtCore/qqueue.h \
@@ -21825,8 +21827,10 @@ compiler_clean:
 		/opt/ros/indigo/include/std_msgs/Header.h \
 		/opt/ros/indigo/include/sensor_msgs/PointField.h \
 		Sensor/VirtualScan/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_VirtualScan_Vars.h \
-		../../../VirtualScan/include/virtualscan.h \
+		../../../FastVirtualScan/include/fastvirtualscan.h \
 		../../../Qt/5.3/gcc_64/include/QtCore/QVector \
+		../../../Qt/5.3/gcc_64/include/QtCore/QtAlgorithms \
+		../../../Qt/5.3/gcc_64/include/QtCore/QtGlobal \
 		../../../ROSInterface/include/rosinterface.h \
 		../../../Qt/5.3/gcc_64/include/QtCore/QObject \
 		../../../Qt/5.3/gcc_64/include/QtCore/qqueue.h \

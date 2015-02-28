@@ -20,18 +20,21 @@ unix {
     INCLUDEPATH += $$(HOME)/SDK/GLViewer/include
     INCLUDEPATH += $$(HOME)/SDK/ROSInterface/include
     INCLUDEPATH += $$(HOME)/SDK/DataSync/include
-    INCLUDEPATH += $$(HOME)/SDK/VirtualScan/include
+#    INCLUDEPATH += $$(HOME)/SDK/VirtualScan/include
+    INCLUDEPATH += $$(HOME)/SDK/FastVirtualScan/include
 
     CONFIG(debug, debug|release){
         LIBS += -L$$(HOME)/SDK/GLViewer/lib -lGLViewer_Debug
         LIBS += -L$$(HOME)/SDK/ROSInterface/lib/ -lROSInterface_Debug
         LIBS += -L$$(HOME)/SDK/DataSync/lib/ -lDataSync_Debug
-        LIBS += -L$$(HOME)/SDK/VirtualScan/lib/ -lVirtualScan_Debug
+#        LIBS += -L$$(HOME)/SDK/VirtualScan/lib/ -lVirtualScan_Debug
+        LIBS += -L$$(HOME)/SDK/FastVirtualScan/lib/ -lFastVirtualScan_Debug
     }else{
         LIBS += -L$$(HOME)/SDK/GLViewer/lib -lGLViewer_Release
         LIBS += -L$$(HOME)/SDK/ROSInterface/lib/ -lROSInterface_Release
         LIBS += -L$$(HOME)/SDK/DataSync/lib/ -lDataSync_Release
-        LIBS += -L$$(HOME)/SDK/VirtualScan/lib/ -lVirtualScan_Release
+ #       LIBS += -L$$(HOME)/SDK/VirtualScan/lib/ -lVirtualScan_Release
+        LIBS += -L$$(HOME)/SDK/FastVirtualScan/lib/ -lFastVirtualScan_Release
     }
     LIBS *= -L/usr/lib/i386-linux-gnu -lGLU
 
@@ -54,6 +57,9 @@ unix {
     LIBS += -L/usr/lib/x86_64-linux-gnu -lboost_system
 
     INCLUDEPATH += /home/alexanderhmw/Git/Autoware/ros/devel/include
+
+    QMAKE_CXXFLAGS += -fopenmp
+    LIBS += -fopenmp
 }
 
 PROJNAME = COI_ROS

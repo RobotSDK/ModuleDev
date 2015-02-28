@@ -30,6 +30,7 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
     GetParamValue(xmlloader,vars,maxceiling);
     GetParamValue(xmlloader,vars,maxfloor);
     GetParamValue(xmlloader,vars,minceiling);
+    GetParamValue(xmlloader,vars,rotation);
 
     GetParamValue(xmlloader,vars,neighbordis);
     GetParamValue(xmlloader,vars,pointsnum);
@@ -121,17 +122,18 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
 	E.g. outputPortIndex=QList<int>()<<(outportindex1)<<(outportindex2)...
 	Step 3: set the timeStamp for Simulator.
 	*/
-    vars->virtualscan.velodynedata=vars->velodynesub->getMessage();
-    if(vars->virtualscan.velodynedata==NULL)
+    vars->virtualscan.velodyne=vars->velodynesub->getMessage();
+    if(vars->virtualscan.velodyne==NULL)
     {
         return 0;
     }
-    int msec=(vars->virtualscan.velodynedata->header.stamp.sec)%(24*60*60)*1000+(vars->virtualscan.velodynedata->header.stamp.nsec)/1000000;
+    int msec=(vars->virtualscan.velodyne->header.stamp.sec)%(24*60*60)*1000+(vars->virtualscan.velodyne->header.stamp.nsec)/1000000;
     outputdata->timestamp=QTime::fromMSecsSinceStartOfDay(msec);
 
-    vars->virtualscan.calculateVirtualScans(vars->beamnum,vars->heightstep,vars->minfloor,vars->maxceiling);
     double PI=3.141592654;
-    vars->virtualscan.getUpperVirtualScan(vars->theta*PI/180.0,vars->maxfloor,vars->minceiling,outputdata->virtualscan,outputdata->heights);
+    vars->virtualscan.calculateVirtualScans(vars->beamnum,vars->heightstep,vars->minfloor,vars->maxceiling,vars->rotation*PI/180.0);
+    vars->virtualscan.getVirtualScan(vars->theta*PI/180.0,vars->maxfloor,vars->minceiling,outputdata->virtualscan);
+    outputdata->heights=vars->virtualscan.minheights;
 
     int i,n=outputdata->virtualscan.size();
     outputdata->label.fill(-1,n);
