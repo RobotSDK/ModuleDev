@@ -18,10 +18,12 @@
 	 Defines the Vars of SensorInternalEvent_Sensor_VirtualScan
 */
 
+#include "../Edit/SensorInternalEvent_Sensor_VirtualScan_ParamsData.h"
 //*******************Please add other headers below*******************
 #include<fastvirtualscan.h>
 #include<rosinterface.h>
 #include<sensor_msgs/PointCloud2.h>
+#include<sensor_msgs/LaserScan.h>
 
 //The Vars is defined as below
 /*! \class SensorInternalEvent_Sensor_VirtualScan_Vars 
@@ -50,7 +52,8 @@ public:
         minfloor=-3;
         maxceiling=3;
         maxfloor=-1.2;
-        minceiling=0.5;
+        minceiling=-0.5;
+        passheight=2;
         rotation=3;
 
         neighbordis=0.3;
@@ -83,6 +86,7 @@ public:
     double maxceiling;
     double maxfloor;
     double minceiling;
+    double passheight;
     double rotation;
 
     double neighbordis;

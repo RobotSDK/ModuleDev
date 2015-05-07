@@ -55,7 +55,8 @@ public:
     {
         QTime timestamp;
         QVector<double> virtualscan;
-        QVector<double> heights;
+        QVector<double> minheights;
+        QVector<double> maxheights;
         QVector<int> label;
         QVector<QVector<int> > index;
         int labelcount;

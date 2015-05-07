@@ -18,6 +18,12 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 	2: initialize variables (vars).
 	3: If everything is OK, return 1 for successful opening and vice versa.
 	*/
+    GetParamValue(xmlloader,vars,rotation);
+    GetParamValue(xmlloader,vars,ratio);
+    GetParamValue(xmlloader,vars,convert);
+    GetParamValue(xmlloader,vars,alpha);
+    GetParamValue(xmlloader,vars,beta);
+
     vars->viewer->setText("Open");
 	return 1;
 }
@@ -82,7 +88,17 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
 	*/
     vars->tabwidget->setTabText(0,draindata[0]->timestamp.toString("HH:mm:ss:zzz"));
 
-    cv::Mat image=draindata[0]->cvimage;
+    cv::Mat image=draindata[0]->cvimage.clone();
+
+    cv::Point2f src_center(image.cols/2.0F, image.rows/2.0F);
+    cv::Mat rot_mat = cv::getRotationMatrix2D(src_center, vars->rotation, vars->ratio);
+    cv::warpAffine(image,image,rot_mat,image.size());
+    cv::getRectSubPix(image,cv::Size(image.cols*vars->ratio,image.rows*vars->ratio),cv::Point2f(image.cols/2,image.rows/2),image);
+
+    if(vars->convert)
+    {
+        image.convertTo(image,-1,vars->alpha,vars->beta);
+    }
 
     if(image.type()==CV_8UC3)
     {

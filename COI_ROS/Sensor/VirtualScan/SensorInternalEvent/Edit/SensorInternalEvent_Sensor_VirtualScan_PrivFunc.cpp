@@ -30,6 +30,7 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
     GetParamValue(xmlloader,vars,maxceiling);
     GetParamValue(xmlloader,vars,maxfloor);
     GetParamValue(xmlloader,vars,minceiling);
+    GetParamValue(xmlloader,vars,passheight);
     GetParamValue(xmlloader,vars,rotation);
 
     GetParamValue(xmlloader,vars,neighbordis);
@@ -132,8 +133,9 @@ bool DECOFUNC(generateSourceData)(void * paramsPtr, void * varsPtr, void * outpu
 
     double PI=3.141592654;
     vars->virtualscan.calculateVirtualScans(vars->beamnum,vars->heightstep,vars->minfloor,vars->maxceiling,vars->rotation*PI/180.0);
-    vars->virtualscan.getVirtualScan(vars->theta*PI/180.0,vars->maxfloor,vars->minceiling,outputdata->virtualscan);
-    outputdata->heights=vars->virtualscan.minheights;
+    vars->virtualscan.getVirtualScan(vars->theta*PI/180.0,vars->maxfloor,vars->minceiling,vars->passheight,outputdata->virtualscan);
+    outputdata->minheights=vars->virtualscan.minheights;
+    outputdata->maxheights=vars->virtualscan.maxheights;
 
     int i,n=outputdata->virtualscan.size();
     outputdata->label.fill(-1,n);

@@ -1,0 +1,12 @@
+#ifndef WHEELCHAIR_GLOBAL_H
+#define WHEELCHAIR_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(WHEELCHAIR_LIBRARY)
+#  define WHEELCHAIRSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define WHEELCHAIRSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // WHEELCHAIR_GLOBAL_H

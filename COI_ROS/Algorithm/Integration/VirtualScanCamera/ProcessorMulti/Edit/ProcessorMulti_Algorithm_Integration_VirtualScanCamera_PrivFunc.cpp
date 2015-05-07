@@ -127,7 +127,8 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
         ProcessorMulti_Algorithm_Integration_VirtualScanCamera_Vars::VirtualScanBufferData data;
         data.timestamp=inputdata_0[i]->timestamp;
         data.virtualscan=inputdata_0[i]->virtualscan;
-        data.heights=inputdata_0[i]->heights;
+        data.minheights=inputdata_0[i]->minheights;
+        data.maxheights=inputdata_0[i]->maxheights;
         data.label=inputdata_0[i]->label;
         data.index=inputdata_0[i]->index;
         data.labelcount=inputdata_0[i]->labelcount;
@@ -154,16 +155,20 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
     outputdata->cameratimestamp=data2.timestamp;
 
     int beamnum=data1.virtualscan.size();
-    cv::Mat points(beamnum,4,CV_64F);
+    cv::Mat points(beamnum*2,4,CV_64F);
     double PI=3.141592654;
     double density=2*PI/beamnum;
     for(i=0;i<beamnum;i++)
     {
         double theta=density*i-PI;
-        points.at<double>(i,0)=data1.virtualscan[i]*cos(theta);
-        points.at<double>(i,1)=data1.virtualscan[i]*sin(theta);
-        points.at<double>(i,2)=data1.heights[i];
-        points.at<double>(i,3)=1.0;
+        points.at<double>(i*2,0)=data1.virtualscan[i]*cos(theta);
+        points.at<double>(i*2,1)=data1.virtualscan[i]*sin(theta);
+        points.at<double>(i*2,2)=data1.minheights[i];
+        points.at<double>(i*2,3)=1.0;
+        points.at<double>(i*2+1,0)=data1.virtualscan[i]*cos(theta);
+        points.at<double>(i*2+1,1)=data1.virtualscan[i]*sin(theta);
+        points.at<double>(i*2+1,2)=data1.maxheights[i];
+        points.at<double>(i*2+1,3)=1.0;
     }
 
     outputdata->cvimage=data2.cvimage;
@@ -180,7 +185,7 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
 
     outputdata->labelcount=data1.labelcount;
     outputdata->index.resize(outputdata->labelcount);
-    for(i=0;i<beamnum;i++)
+    for(i=0;i<2*beamnum;i++)
     {
         if(camerapoints.at<double>(i,2)<=0)
         {
@@ -202,10 +207,11 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
             outputdata->imagepoint.push_back(QPoint(px,py));
             outputdata->xypoint.push_back(QPointF(camerapoints.at<double>(i,0),camerapoints.at<double>(i,1)));
             outputdata->heights.push_back(camerapoints.at<double>(i,2));
-            outputdata->label.push_back(data1.label[i]);
-            if(data1.label[i]>=0)
+            int labelid=i/2;
+            outputdata->label.push_back(data1.label[labelid]);
+            if(data1.label[labelid]>=0)
             {
-                outputdata->index[data1.label[i]].push_back(outputdata->xypoint.size()-1);
+                outputdata->index[data1.label[labelid]].push_back(outputdata->xypoint.size()-1);
             }
         }
     }

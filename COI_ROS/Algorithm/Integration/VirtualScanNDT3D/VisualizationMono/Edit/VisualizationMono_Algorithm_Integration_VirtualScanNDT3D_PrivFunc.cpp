@@ -20,9 +20,14 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 	*/
     GetParamValue(xmlloader,params,maxrange);
     GetParamValue(xmlloader,params,gridsize);
-    GetParamValue(xmlloader,params,imagesize);
+    GetParamValue(xmlloader,params,imageheight);
+    GetParamValue(xmlloader,params,imagewidth);
     GetParamValue(xmlloader,params,frames);
     GetParamValue(xmlloader,params,baseframe);
+    GetParamValue(xmlloader,params,showbeam);
+
+    params->imagesize=params->imageheight>params->imagewidth?params->imageheight:params->imagewidth;
+
     vars->image->setText("Open");
     vars->points.clear();
     vars->transforms.clear();
@@ -89,32 +94,37 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
 	/*
 	Function: process draindata.
 	*/
-    vars->points.push_back(draindata.front()->points);
-    vars->transforms.push_back(draindata.front()->cvtransform);
-    if(vars->points.size()<params->frames)
-    {
-        return 0;
-    }
+    vars->points.push_front(draindata.front()->points);
+    vars->transforms.push_front(draindata.front()->cvtransform);
+//    if(vars->points.size()<params->frames)
+//    {
+//        return 0;
+//    }
     if(vars->points.size()>params->frames)
     {
-        vars->points.pop_front();
-        vars->transforms.pop_front();
+        vars->points.pop_back();
+        vars->transforms.pop_back();
     }
-    QImage image(params->imagesize,params->imagesize,QImage::Format_RGB888);
+    QImage image(params->imagewidth,params->imageheight,QImage::Format_RGB888);
     image.fill(QColor(255,255,255));
     double ratio=double(params->imagesize)/double(2*params->maxrange);
 
     QPainter painter;
     painter.begin(&image);
 
-    cv::Mat basemat=vars->transforms[params->baseframe].inv();
+    cv::Mat basemat;
+    if(params->baseframe>=0&&params->baseframe<vars->points.size())
+    {
+        basemat=vars->transforms[params->baseframe].inv();
+    }
+    else
+    {
+        basemat=vars->transforms.front().inv();
+    }
     int i;
-    for(i=0;i<params->frames;i++)
+    for(i=vars->points.size()-1;i>=0;i--)
     {
         cv::Mat points=vars->points[i]*basemat.t();
-        int id=double(i)/double(params->frames)*255;
-        cv::Vec3b color=vars->colortable.at<cv::Vec3b>(id);
-        painter.setPen(QColor(color[0],color[1],color[2]));
         int j,beamnum=points.rows;
         for(j=0;j<beamnum;j++)
         {
@@ -123,17 +133,35 @@ bool DECOFUNC(processMonoDrainData)(void * paramsPtr, void * varsPtr, QVector<vo
             double distance=sqrt(x*x+y*y);
             if(distance>0)
             {
-                int py=int((params->maxrange+x)*ratio+0.5);
-                int px=int((params->maxrange+y)*ratio+0.5);
-                px=params->imagesize-px;
-                py=params->imagesize-py;
+                int py=int(x*ratio+params->imageheight/2.0+0.5);
+                int px=int(y*ratio+params->imagewidth/2.0+0.5);
+                px=params->imagewidth-px;
+                py=params->imageheight-py;
+                if(params->frames>1)
+                {
+                    int id=255-int(double(i)/double(params->frames)*255);
+                    cv::Vec3b color=vars->colortable.at<cv::Vec3b>(id);
+                    painter.setPen(QColor(color[0],color[1],color[2]));
+                    painter.setBrush(QColor(color[0],color[1],color[2]));
+                }
+                else
+                {
+                    painter.setPen(QColor(255,0,0));
+                    painter.setBrush(QColor(255,0,0));
+                }
                 painter.drawEllipse(QPoint(px,py),1,1);
+                painter.setBrush(QBrush());
+                if(params->showbeam)
+                {
+                    painter.setPen(QColor(196,196,196));
+                    painter.drawLine(params->imagewidth/2,params->imageheight/2,px,py);
+                }
             }
         }
     }
 
     painter.setPen(QColor(128,128,128));
-    QPoint center(params->imagesize/2,params->imagesize/2);
+    QPoint center(params->imagewidth/2,params->imageheight/2);
     for(i=params->gridsize;i<=params->maxrange;i+=params->gridsize)
     {
         painter.drawEllipse(center,i*ratio,i*ratio);

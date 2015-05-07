@@ -18,7 +18,7 @@ bool DECOFUNC(setParamsVarsOpenNode)(QString qstrConfigName, QString qstrNodeTyp
 	2: initialize variables (vars).
 	3: If everything is OK, return 1 for successful opening and vice versa.
 	*/
-	
+    //vars->datasync.clear();
 	return 1;
 }
 
@@ -33,7 +33,7 @@ bool DECOFUNC(handleVarsCloseNode)(void * paramsPtr, void * varsPtr)
 	1: handle/close variables (vars).
 	2: If everything is OK, return 1 for successful closing and vice versa.
 	*/
-	
+    //vars->datasync.clear();
 	return 1;
 }
 
@@ -109,7 +109,7 @@ bool DECOFUNC(processMultiInputData)(void * paramsPtr, void * varsPtr, QVector<Q
         ProcessorMulti_Algorithm_Integration_VirtualScanNDT3D_Vars::VirtualScanBufferData data;
         data.timestamp=inputdata_0[i]->timestamp;
         data.virtualscan=inputdata_0[i]->virtualscan;
-        data.heights=inputdata_0[i]->heights;
+        data.heights=inputdata_0[i]->minheights;
         vars->datasync.addData1(data,data.timestamp);
     }
     int j,m=inputdata_1.size();

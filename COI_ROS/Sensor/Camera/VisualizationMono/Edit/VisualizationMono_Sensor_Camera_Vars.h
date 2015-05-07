@@ -49,6 +49,12 @@ public:
         {
             colorTable.push_back(qRgb(i,i,i));
         }
+
+        rotation=0;
+        ratio=1;
+        convert=0;
+        alpha=1;
+        beta=0;
 	}
 	/*! \fn ~VisualizationMono_Sensor_Camera_Vars()
 		\brief The destructor of VisualizationMono_Sensor_Camera_Vars. [required]
@@ -68,6 +74,11 @@ public:
     QTabWidget * tabwidget;
     QLabel * viewer;
     QVector<QRgb> colorTable;
+    double rotation;
+    double ratio;
+    bool convert;
+    double alpha;
+    double beta;
 };
 
 /*! @}*/ 

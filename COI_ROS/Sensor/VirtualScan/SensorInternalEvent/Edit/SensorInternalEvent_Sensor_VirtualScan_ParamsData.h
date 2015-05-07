@@ -21,6 +21,7 @@
 //*******************Please add other headers below*******************
 #include<opencv2/opencv.hpp>
 #include<sensor_msgs/PointCloud2.h>
+#include<sensor_msgs/LaserScan.h>
 
 //There is no input data headers.
 
@@ -94,7 +95,8 @@ public:
 	//*******************Please add variables below*******************
     QTime timestamp;
     QVector<double> virtualscan;
-    QVector<double> heights;
+    QVector<double> minheights;
+    QVector<double> maxheights;
     QVector<int> label;
     QVector<QVector<int> > index;
     int labelcount;

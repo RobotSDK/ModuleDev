@@ -53,9 +53,12 @@ public:
 	{
         maxrange=50;
         gridsize=5;
+        imagewidth=600;
+        imageheight=600;
         imagesize=600;
         frames=10;
         baseframe=2;
+        showbeam=0;
 	}
 	/*! \fn ~VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_Params()
 		\brief The destructor of VisualizationMono_Algorithm_Integration_VirtualScanNDT3D_Params. [required]
@@ -70,9 +73,12 @@ public:
 	//*******************Please add variables below*******************
     int maxrange;
     int gridsize;
+    int imageheight;
+    int imagewidth;
     int imagesize;
     int frames;
     int baseframe;
+    bool showbeam;
 };
 
 //There is no Output Data.

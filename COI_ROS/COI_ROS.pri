@@ -62,7 +62,8 @@ SOURCES += \
 	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMono/Edit/VisualizationMono_Algorithm_Integration_VirtualScanCameraDPM_PrivFunc.cpp	\
 	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMono/NoEdit/VisualizationMono_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.cpp	\
 	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivFunc.cpp	\
-	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.cpp	
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.cpp	\
+	./Sensor/VirtualScan/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_VirtualScan_PrivExFunc.cpp	
 
 HEADERS += \
 	./Sensor/Velodyne/SensorInternalEvent/Edit/SensorInternalEvent_Sensor_Velodyne_ParamsData.h	\
@@ -192,5 +193,6 @@ HEADERS += \
 	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_ParamsData.h	\
 	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/Edit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_Vars.h	\
 	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivFunc.h	\
-	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.h	
+	./Algorithm/Integration/VirtualScanCameraDPM/VisualizationMulti/NoEdit/VisualizationMulti_Algorithm_Integration_VirtualScanCameraDPM_PrivCoreFunc.h	\
+	./Sensor/VirtualScan/SensorInternalEvent/NoEdit/SensorInternalEvent_Sensor_VirtualScan_PrivExFunc.h	
 
